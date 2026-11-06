@@ -310,10 +310,63 @@
       .col a { color: var(--title); }
       .cs-btn { background: #1f1f1f; }
     }
+
+    /* ---------- Page-open intro: the light sweep (?intro=0 turns it off) ----------
+       It plays once per page load, never blocks a tap (pointer-events: none) and the offer is readable within ~0.8s.
+       A warm band of light crosses the screen left to right, lights the red dots as it passes and uncovers the page. */
+    @property --sx { syntax: "<percentage>"; inherits: false; initial-value: -40%; }
+    .ifx { display: none; }
+    html.intro .ifx { display: block; position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+    html.intro-done .ifx { display: none; }
+    .ifx > * { position: absolute; inset: 0; }
+    html.intro :is(.brand, .hero-head h1, .hero-head .head-clock, .tex-wrap) { animation: ifx-in 800ms var(--ease-out) var(--d, 0ms) both; }
+    html.intro .hero-sec .card-col { animation: ifx-card 900ms var(--ease-out) var(--d, 0ms) both; }
+    @keyframes ifx-in { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+    @keyframes ifx-card { from { opacity: 0; transform: translateY(28px) scale(0.96); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+    html.intro .tex-wrap { animation-name: ifx-fade; animation-duration: 1200ms; }
+    @keyframes ifx-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 1. Light sweep */
+    html.intro-1 .brand { --d: 560ms; } html.intro-1 .hero-head h1 { --d: 480ms; } html.intro-1 .hero-head .head-clock { --d: 540ms; }
+    html.intro-1 .hero-sec .card-col { --d: 520ms; } html.intro-1 .tex-wrap { --d: 760ms; }
+    .intro-1 .ifx-beam {
+      inset: -20vh auto -20vh 0; width: 56vw; filter: blur(26px); mix-blend-mode: screen;
+      background: linear-gradient(90deg, rgba(255, 214, 120, 0), rgba(255, 226, 150, 0.95) 34%, rgba(255, 150, 96, 0.85) 52%, rgba(222, 35, 44, 0.7) 70%, rgba(222, 35, 44, 0));
+      animation: v1-beam 1600ms cubic-bezier(0.77, 0, 0.175, 1) both;
+    }
+    @keyframes v1-beam { 0% { transform: translateX(-68vw) skewX(-14deg); opacity: 1; } 78% { opacity: 1; } 100% { transform: translateX(122vw) skewX(-14deg); opacity: 0; } }
+    /* the page stays dark until the light reaches it */
+    .intro-1 .ifx-veil {
+      background: var(--bg);
+      -webkit-mask: linear-gradient(100deg, transparent calc(var(--sx) - 12%), #000 calc(var(--sx) + 4%));
+      mask: linear-gradient(100deg, transparent calc(var(--sx) - 12%), #000 calc(var(--sx) + 4%));
+      animation: v1-dots 1600ms cubic-bezier(0.77, 0, 0.175, 1) both;
+    }
+    .intro-1 .ifx-dots {
+      background: radial-gradient(circle, rgba(255, 170, 150, 1) 1.3px, transparent 1.9px) 0 0 / 12px 12px; mix-blend-mode: screen;
+      -webkit-mask: linear-gradient(100deg, transparent calc(var(--sx) - 34%), #000 calc(var(--sx) - 10%), #000 var(--sx), transparent calc(var(--sx) + 16%));
+      mask: linear-gradient(100deg, transparent calc(var(--sx) - 34%), #000 calc(var(--sx) - 10%), #000 var(--sx), transparent calc(var(--sx) + 16%));
+      animation: v1-dots 1600ms cubic-bezier(0.77, 0, 0.175, 1) both;
+    }
+    @keyframes v1-dots { 0% { --sx: -40%; } 100% { --sx: 150%; } }
+    .intro-1 .ifx-wash { background: radial-gradient(130% 100% at 0% 0%, rgba(255, 178, 96, 0.2), rgba(222, 35, 44, 0.1) 42%, transparent 72%); animation: v1-wash 2300ms ease-out both; }
+    @keyframes v1-wash { 0% { opacity: 0; } 22% { opacity: 1; } 100% { opacity: 0; } }
+
+    /* reduced motion: no light show, the hero simply fades in */
+    html.intro-calm :is(.brand, .hero-head h1, .hero-head .head-clock, .tex-wrap, .hero-sec .card-col) { animation: ifx-fade 400ms ease both; }
   </style>
+  <script>
+    /* start the intro before the first paint so the hero never flashes in unanimated */
+    (() => {
+      const el = document.documentElement;
+      if (new URLSearchParams(location.search).get('intro') === '0') return;
+      el.classList.add('intro', matchMedia('(prefers-reduced-motion: reduce)').matches ? 'intro-calm' : 'intro-1');
+    })();
+  </script>
   <script src="assets/bf/dots-mask.js"></script>
 </head>
 <body>
+  <div class="ifx" aria-hidden="true"><div class="ifx-veil"></div><div class="ifx-wash"></div><div class="ifx-beam"></div><div class="ifx-dots"></div></div>
   <!-- 1. Hero -->
   <section class="sec hero-sec" id="hero">
     <a class="brand" href="https://rendy.io/" aria-label="Rendy home"><img src="assets/lp/logo.svg" alt="Rendy" /></a>
@@ -450,6 +503,9 @@
     (() => {
       const root = document.documentElement;
       const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+      // ---- Intro: take the overlay away once it has played ----
+      if (root.classList.contains('intro')) setTimeout(() => root.classList.add('intro-done'), 3000);
       const OFFER_END = new Date('2026-11-30T23:59:59-08:00').getTime();
       const q = new URLSearchParams(location.search);
       const offset = q.get('now') && !isNaN(Date.parse(q.get('now'))) ? Date.parse(q.get('now')) - Date.now() : 0;
