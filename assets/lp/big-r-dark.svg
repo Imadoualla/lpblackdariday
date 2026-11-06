@@ -1,0 +1,31 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="533.17" height="525.984" viewBox="0 0 533.17 525.984" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 2085663302" opacity="0.5">
+<g id="Vector" opacity="0.4">
+<g filter="url(#filter0_i_0_12)">
+<path d="M409.773 0L123.397 0C55.2467 0 0 54.5021 0 121.734L0 404.25C0 471.482 55.2467 525.984 123.397 525.984H409.773C477.923 525.984 533.17 471.482 533.17 404.25V121.734C533.17 54.5021 477.923 0 409.773 0Z" fill="url(#paint0_radial_0_12)" fill-opacity="0.16"/>
+</g>
+<path d="M123.397 1.01563L409.773 1.01562C477.376 1.01587 532.154 55.0758 532.154 121.733V404.25C532.154 470.908 477.376 524.968 409.773 524.968H123.397C55.795 524.968 1.01569 470.908 1.01563 404.25L1.01563 121.733C1.01585 55.0756 55.7951 1.01563 123.397 1.01563Z" stroke="url(#paint1_radial_0_12)" stroke-opacity="0.4" stroke-width="2.0309"/>
+</g>
+<path id="Vector_2" d="M288.508 92.8618C277.307 92.8618 266.534 97.263 258.608 105.082L188.509 174.236C180.583 182.055 176.122 192.637 176.122 203.686L176.122 432.921H269.286V204.201C269.286 197.6 265.489 191.56 259.509 188.61L228.992 173.581L380.676 173.581V92.8618L288.508 92.8618Z" fill="#030204"/>
+</g>
+<defs>
+<filter id="filter0_i_0_12" x="0" y="0" width="533.17" height="546.984" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="21"/>
+<feGaussianBlur stdDeviation="25.85"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_0_12"/>
+</filter>
+<radialGradient id="paint0_radial_0_12" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(266.585 -1.68389e-05) rotate(93.0725) scale(525.641 532.823)">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint1_radial_0_12" cx="0" cy="0" r="1" gradientTransform="matrix(105.789 558.437 -557.324 98.174 149.163 -105.478)" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.34"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

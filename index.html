@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rendy · Black Friday</title>
+  <meta name="description" content="Rendy's Black Friday offer: 5 listings a month for $59 on the annual plan, with feedback from real estate photographers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet" />
+  <style>
+    @property --gr { syntax: "<length>"; inherits: false; initial-value: 200px; }
+    :root {
+      --bg: #030204;
+      --band: #0b1014;
+      --white: #ffffff;
+      --title: #fdfdfd;
+      --card-text: #d1d1d1;
+      --soft: #a3a3a3;
+      --colon: #d9d9d9;
+      --accent: #de232c;
+      --purple: #a755f7;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --card-shadow: 0 307px 86px rgba(0, 0, 0, 0), 0 196px 78px rgba(0, 0, 0, 0.01), 0 10px 10px rgba(0, 0, 0, 0.02), 0 12px 27px rgba(0, 0, 0, 0.1);
+      --btn-shadow: 0 89px 25px rgba(61, 61, 61, 0), 0 57px 23px rgba(61, 61, 61, 0.01), 0 32px 19px rgba(61, 61, 61, 0.05), 0 14px 14px rgba(61, 61, 61, 0.09), 0 4px 8px rgba(61, 61, 61, 0.1);
+      --edge-light: inset 0 -1px 2.5px rgba(255, 255, 255, 0.44), inset 0 1px 2.5px rgba(255, 255, 255, 0.44);
+      --edge-fade: linear-gradient(90deg, transparent 6px, #000 26px, #000 calc(100% - 26px), transparent calc(100% - 6px));
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+    body { margin: 0; background: var(--bg); color: var(--title); font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    img { display: block; max-width: none; }
+    a { color: inherit; text-decoration: none; }
+    p, h1, h2, h3, ul { margin: 0; }
+    ul { padding: 0; list-style: none; }
+    s { text-decoration-thickness: from-font; }
+    :focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    /* Sections follow Figma's 1440 frame: hero 0–1086, feedback 1086–1655, logos 1705–1825, profit 1875–2403, footer 2453–3373;
+       the 50px gaps between them are the page background */
+    .sec { position: relative; width: 100%; }
+    .sec + .sec { margin-top: 50px; }
+    .sec.hero-sec + .sec { margin-top: 0; }
+
+    /* ---------- 1. Hero: logo, then the Black Friday card (Figma 53-11049, the red V4 card) ---------- */
+    .hero-sec { height: 1006.25px; overflow: hidden; }
+    .brand { display: block; position: absolute; top: 105.25px; left: 50%; translate: -50% 0; width: 119.68px; height: 32px; }
+    .brand img { width: 100%; height: 100%; }
+    .offer { position: absolute; top: 225.25px; left: 50%; translate: -50% 0; width: 429px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .offer h1 { font-weight: 500; font-size: 54px; line-height: 80px; letter-spacing: -1.62px; white-space: nowrap; }
+
+    .tex-wrap { position: absolute; z-index: 0; top: 389.75px; left: 50%; width: 778px; height: 321px; margin-left: -389px; pointer-events: none; }
+    .tex-wrap > img { width: 100%; height: 100%; }
+    .glow {
+      --gx: 50%; --gy: 40%; --gr: 420px;
+      position: absolute; inset: 0;
+      -webkit-mask: var(--dots, none) 0 0 / 400px 400px repeat, radial-gradient(closest-side, #000 52%, rgba(0, 0, 0, 0.75) 74%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask: var(--dots, none) 0 0 / 400px 400px repeat, radial-gradient(closest-side, #000 52%, rgba(0, 0, 0, 0.75) 74%, transparent 100%);
+      mask-composite: intersect;
+      background: radial-gradient(var(--gr) circle at var(--gx) var(--gy), color-mix(in srgb, var(--accent) 55%, #ffffff) 0%, var(--accent) 26%, color-mix(in srgb, var(--accent) 45%, transparent) 56%, transparent 100%);
+      opacity: 0.05; transition: opacity 500ms ease, --gr 500ms ease;
+    }
+    .is-lit .glow { --gr: 200px; opacity: 0.8; transition-duration: 260ms; }
+    .offer > * { position: relative; z-index: 1; }
+
+    .card-col { width: 382px; }
+    .shell { position: relative; width: 100%; display: flex; flex-direction: column; padding: 6px; border-radius: 30px; background: #0a0a0a; border: 1px solid #181818; }
+    .bottom { display: flex; flex-direction: column; gap: 24px; padding: 24px; }
+    .panel { position: relative; isolation: isolate; overflow: clip; display: flex; flex-direction: column; gap: 24px; padding: 23px; border-radius: 24px; border: 1px solid #191919; color: var(--white); background: #000; box-shadow: var(--card-shadow); }
+    .panel > * { position: relative; z-index: 1; }
+    .panel::before {
+      content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: var(--accent);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 368 264' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Crect width='100%25' height='100%25' fill='url(%23g)'/%3E%3Cdefs%3E%3CradialGradient id='g' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(16.476 14.499 -20.21 8.8201 -12.652 -12.985)'%3E%3Cstop stop-color='%23fff' offset='0.03328'/%3E%3Cstop stop-color='%23fff' stop-opacity='0' offset='1'/%3E%3C/radialGradient%3E%3C/defs%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 368 264' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Crect width='100%25' height='100%25' fill='url(%23g)'/%3E%3Cdefs%3E%3CradialGradient id='g' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(16.476 14.499 -20.21 8.8201 -12.652 -12.985)'%3E%3Cstop stop-color='%23fff' offset='0.03328'/%3E%3Cstop stop-color='%23fff' stop-opacity='0' offset='1'/%3E%3C/radialGradient%3E%3C/defs%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+      opacity: 0.12; transform-origin: 0 0; transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) { .card-col:hover .panel::before { opacity: 0.3; transform: scale(1.18); transition-duration: 420ms, 600ms; } }
+    .card-col:focus-within .panel::before { opacity: 0.3; }
+    .panel > .lights, .panel > .stars { position: absolute; z-index: 0; pointer-events: none; }
+    .lights { right: -0.51px; top: -0.5px; width: 544.865px; height: 406px; transform: scaleY(-1); opacity: 0.5; }
+    .lights .sheet { position: absolute; width: 640.919px; height: 530.434px; transform: rotate(180deg); }
+    .lights .sheet.a { left: -160.34px; top: 239.71px; }
+    .lights .sheet.b { left: -276.44px; top: 189.46px; }
+    .lights .sheet > div { position: absolute; inset: -8.56% -7.08% -7.71% -5.41%; }
+    .lights img { width: 100%; height: 100%; }
+    .stars { left: calc(100% - 429.4px); top: calc(50% - 445.4px); width: 1267.61px; height: 464.047px; transform: rotate(-165deg); }
+    .head-row { display: flex; flex-direction: column; gap: 8px; }
+    .head-row h2 { font-weight: 500; font-size: 30px; line-height: 32px; white-space: nowrap; }
+    .sub { font-size: 16px; line-height: 20px; color: var(--soft); white-space: nowrap; }
+    .price { display: flex; align-items: baseline; height: 40px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .price .was { font-size: 40px; line-height: 40px; color: var(--soft); text-decoration: line-through; }
+    .price .now { font-weight: 500; font-size: 40px; line-height: 40px; }
+    .price .per { font-weight: 500; font-size: 16px; line-height: 40px; color: var(--card-text); }
+    .cta-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .note-14 { display: flex; align-items: center; height: 14px; font-size: 14px; line-height: 16px; letter-spacing: 0.14px; color: var(--soft); white-space: nowrap; }
+    .cta { position: relative; overflow: clip; display: flex; align-items: center; justify-content: center; width: 100%; height: 48px; padding: 0 20px; border-radius: 12px; background: var(--white); color: #000; box-shadow: var(--btn-shadow); font-weight: 500; font-size: 16px; line-height: 20px; white-space: nowrap; transition: transform 160ms var(--ease-out), background-color 150ms ease; }
+    .cta::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 2px 5.9px rgba(0, 0, 0, 0.22); pointer-events: none; }
+    @media (hover: hover) and (pointer: fine) { .cta:hover { background: #f4f4f4; } }
+    .cta:active { transform: scale(0.98); }
+    /* label roll: each letter rolls up 20ms after the one before, while the second label rolls in from below */
+    .cta-roll { position: relative; display: inline-block; height: 20px; white-space: nowrap; }
+    .cta-line { display: inline-flex; }
+    .cta-line.alt { position: absolute; top: 0; left: 50%; translate: -50% 0; }
+    .rc { display: inline-block; height: 20px; overflow: hidden; }
+    .rc > span { display: block; transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1) calc(var(--i) * 20ms); }
+    .rc-space { white-space: pre; }
+    .cta-line.alt .rc > span { transform: translateY(100%); }
+    @media (hover: hover) and (pointer: fine) {
+      .cta:hover .cta-line:first-child .rc > span, .apply:hover .cta-line:first-child .rc > span { transform: translateY(-100%); }
+      .cta:hover .cta-line.alt .rc > span, .apply:hover .cta-line.alt .rc > span { transform: none; }
+    }
+    .cta:focus-visible .cta-line:first-child .rc > span, .apply:focus-visible .cta-line:first-child .rc > span { transform: translateY(-100%); }
+    .cta:focus-visible .cta-line.alt .rc > span, .apply:focus-visible .cta-line.alt .rc > span { transform: none; }
+    .features { display: flex; flex-direction: column; gap: 16px; }
+    .features li { display: flex; align-items: center; gap: 4px; font-weight: 500; font-size: 16px; line-height: 24px; letter-spacing: 0.16px; color: var(--card-text); white-space: nowrap; }
+    .features img { width: 24px; height: 24px; flex: none; }
+    .countdown { position: relative; overflow: clip; display: flex; flex-direction: column; gap: 16px; padding: 16px; border-radius: 12.5px; background: #141414; box-shadow: 0 1.563px 1.563px rgba(0, 0, 0, 0.1); }
+    .countdown::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: var(--edge-light); -webkit-mask: var(--edge-fade); mask: var(--edge-fade); }
+    .countdown::after { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 1.563px solid #070707; pointer-events: none; }
+    .countdown > * { position: relative; }
+    .countdown-top { display: flex; align-items: center; justify-content: space-between; font-size: 12px; line-height: 12px; letter-spacing: 0.12px; color: var(--soft); white-space: nowrap; }
+    .countdown-top .date { color: var(--white); }
+    .clock { display: flex; align-items: center; justify-content: space-between; }
+    .unit { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 30px; }
+    .digits { display: flex; justify-content: center; font-weight: 500; font-size: 20px; line-height: 24px; font-variant-numeric: tabular-nums; color: var(--white); }
+    .unit .name { font-weight: 500; font-size: 12px; line-height: 16px; text-transform: uppercase; color: var(--soft); }
+    .colon { flex: none; width: 3px; height: 9px; background: radial-gradient(circle at 1.5px 1.5px, var(--colon) 1.5px, transparent 1.6px) 0 0 / 3px 6px repeat-y; }
+    .slot { position: relative; display: inline-block; height: 24px; overflow: hidden; }
+    .slot > span { display: block; }
+    .slot > .in { position: absolute; inset: 0; animation: roll-in 420ms var(--ease-out) both; }
+    .slot > .out { animation: roll-out 420ms var(--ease-out) both; }
+    @keyframes roll-in { from { transform: translateY(70%); opacity: 0; filter: blur(2px); } to { transform: none; opacity: 1; filter: none; } }
+    @keyframes roll-out { from { transform: none; opacity: 1; } to { transform: translateY(-70%); opacity: 0; filter: blur(2px); } }
+    .ribbon { position: absolute; z-index: 2; right: -61.54px; top: -28.95px; width: 274.194px; height: 124.255px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    .ribbon-band { flex: none; width: 280.872px; height: 30px; rotate: 20deg; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; background-color: var(--accent); color: #fff; font-weight: 500; font-size: 12px; line-height: 20px; letter-spacing: 0.12px; white-space: nowrap; }
+    .ribbon-band .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+    .grain { background-image: var(--noise, none); background-size: 100px 100px; }
+    .roll { display: block; height: 20px; overflow: hidden; }
+    .roll > span { display: flex; flex-direction: column; transition: translate 520ms var(--ease-out) var(--d, 0ms); }
+    .roll > span > span { display: block; height: 20px; }
+    .roll.dot-roll > span > span { display: flex; align-items: center; justify-content: center; }
+    @media (hover: hover) and (pointer: fine) { .card-col:hover .roll > span { translate: 0 -20px; } }
+    .card-col:focus-within .roll > span { translate: 0 -20px; }
+
+    /* ---------- 2. Feedback (Figma 53-11034, already dark): headline, then the screenshots drifting left ---------- */
+    .feedback { height: 569px; background: var(--band); overflow: hidden; }
+    .fb-title {
+      position: absolute; top: 100px; left: 50%; translate: calc(-50% - 1px) 0; width: 690px; text-align: center; text-indent: 6px;
+      font-weight: 500; font-size: 48px; line-height: 60px; letter-spacing: -2.4px;
+      background: linear-gradient(-39.485deg, #ffffff 56.971%, rgba(255, 255, 255, 0.36) 73.209%); -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    /* "Unfiltered" is Figma Hand, drawn from Figma's own outlines with its fade */
+    .fb-title .hand { display: inline-block; width: 239.5px; height: 48.05px; margin-right: 10.4px; vertical-align: -5.2px; position: relative; left: 2px; }
+    /* the window: Figma's blurred 1000x169 mask from x220 to x1220, feathered about 25px on each side */
+    .fb-window {
+      position: absolute; top: 300px; left: 0; right: 0; height: 169px;
+      -webkit-mask: linear-gradient(90deg, transparent calc(50% - 525px), #000 calc(50% - 475px), #000 calc(50% + 475px), transparent calc(50% + 525px)), linear-gradient(180deg, #000 calc(100% - 25px), transparent calc(100% + 25px));
+      -webkit-mask-composite: source-in;
+      mask: linear-gradient(90deg, transparent calc(50% - 525px), #000 calc(50% - 475px), #000 calc(50% + 475px), transparent calc(50% + 525px)), linear-gradient(180deg, #000 calc(100% - 25px), transparent calc(100% + 25px));
+      mask-composite: intersect;
+    }
+    .marquee { display: flex; width: max-content; animation: drift var(--dur) linear infinite; will-change: transform; }
+    .marquee > .set { display: flex; flex: none; align-items: flex-start; }
+    @keyframes drift { to { transform: translateX(-50%); } }
+    .fb-track { margin-left: calc(50% - 711px); }
+    .fb-item { flex: none; width: 259px; margin-right: 32px; padding: 2px; border-radius: 24px; background: var(--band); overflow: clip; }
+    .fb-item .shot { position: relative; width: 255px; overflow: hidden; }
+    .fb-item .shot img { position: absolute; }
+    @media (hover: hover) and (pointer: fine) { .fb-window:hover .marquee { animation-play-state: paused; } }
+    /* on black (test): the section takes the page colour and every screenshot is re-toned so its own navy background
+       (#0b1014) lands exactly on #030204 while white stays white; the grey bubbles end up a neutral dark grey */
+    .feedback.on-black { background: var(--bg); }
+    .feedback.on-black .fb-item { background: var(--bg); }
+    .feedback.on-black .fb-item img { filter: url(#fb-tone); }
+    /* the crops keep a sliver of each screenshot's lighter outer frame; a 10px feather lets those edges dissolve into the black */
+    .feedback.on-black .fb-item .shot {
+      -webkit-mask: linear-gradient(90deg, transparent, #000 10px, #000 calc(100% - 10px), transparent), linear-gradient(180deg, transparent, #000 10px, #000 calc(100% - 10px), transparent);
+      -webkit-mask-composite: source-in;
+      mask: linear-gradient(90deg, transparent, #000 10px, #000 calc(100% - 10px), transparent), linear-gradient(180deg, transparent, #000 10px, #000 calc(100% - 10px), transparent);
+      mask-composite: intersect;
+    }
+
+    /* ---------- 3. Logos (Figma 53-11506): every logo brightened to read on dark, drifting left at 40% ---------- */
+    .logos { height: 120px; display: flex; align-items: center; justify-content: center; }
+    .logo-window {
+      width: min(1200px, 100% - 32px); height: 40px; overflow: hidden;
+      -webkit-mask: linear-gradient(90deg, transparent 67.8px, #000 93.2px, #000 calc(100% - 93.2px), transparent calc(100% - 67.8px));
+      mask: linear-gradient(90deg, transparent 67.8px, #000 93.2px, #000 calc(100% - 93.2px), transparent calc(100% - 67.8px));
+    }
+    .logo-track { margin-left: -324.53px; height: 40px; }
+    .logo-track .set { align-items: center; height: 40px; }
+    .logo { flex: none; margin-right: 80px; opacity: 0.4; transition: opacity 300ms ease; }
+    .logo img { width: 100%; height: 100%; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.35) contrast(1.25); }
+    .logo.as-is img { filter: none; }
+    @media (hover: hover) and (pointer: fine) { .logo:hover { opacity: 1; } }
+
+    /* ---------- 4. Profit (Figma 53-10944, white in Figma, dark here) ---------- */
+    .profit { height: 528px; overflow: hidden; }
+    .profit-copy { position: absolute; top: 50%; left: 50%; translate: calc(-50% - 1px) calc(-50% + 1px); display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+    .profit-copy h2 {
+      width: 590px; font-weight: 500; font-size: 64px; line-height: 80px; letter-spacing: -1.92px;
+      background: linear-gradient(89.66deg, #fdfdfd 32.4%, #8c8c8c 99.92%); -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .profit-copy a { font-size: 20px; line-height: 28px; letter-spacing: -0.4px; color: var(--purple); text-decoration: underline; text-underline-position: from-font; text-decoration-thickness: from-font; white-space: nowrap; transition: color 150ms ease; }
+    @media (hover: hover) and (pointer: fine) { .profit-copy a:hover { color: #c08bff; } }
+    /* payment cards: a faint slab, and the card tilted on top of it, floating like rendy.io's (6s, 15px) */
+    .pay { position: absolute; width: 420px; height: 109.667px; border-radius: 28px; background: rgba(255, 255, 255, 0.03); animation: float 6s ease-in-out infinite; }
+    .pay .card {
+      position: absolute; left: 0; top: 20.49px; width: 420px; display: flex; align-items: center; gap: 8.167px; padding: 23.333px; border-radius: 28px;
+      background: #111113; border: 1px solid #1c1c1f; overflow: clip; rotate: 3deg; transform-origin: center;
+      box-shadow: 0 47.5px 14px rgba(0, 0, 0, 0), 0 30.7px 12.6px rgba(0, 0, 0, 0.04), 0 16.8px 9.8px rgba(0, 0, 0, 0.12), 0 7px 7px rgba(0, 0, 0, 0.2), 0 1.4px 4.2px rgba(0, 0, 0, 0.2);
+    }
+    .pay .ic { position: relative; flex: none; width: 63px; height: 63px; border-radius: 50%; background: #1c1c1f; display: grid; place-items: center; }
+    .pay .ic img { width: 35px; height: 35px; }
+    .pay .txt { position: relative; display: flex; flex-direction: column; gap: 2.333px; white-space: nowrap; }
+    .pay .name { font-weight: 500; font-size: 23.333px; line-height: 28px; letter-spacing: -0.233px; color: var(--white); }
+    .pay .what { font-size: 18.667px; line-height: 23.333px; letter-spacing: -0.187px; background: linear-gradient(91.13deg, #8c8c8c 4.3%, rgba(140, 140, 140, 0) 115.2%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .pay .what.sm { font-size: 16.333px; letter-spacing: -0.163px; background-image: linear-gradient(90.65deg, #8c8c8c 12.1%, rgba(140, 140, 140, 0) 120.7%); }
+    .pay .when { position: absolute; top: 0; left: calc(100% + 29px); font-weight: 300; font-size: 11.667px; line-height: 11.667px; letter-spacing: -0.07px; color: rgba(255, 255, 255, 0.3); translate: -100% 0; }
+    .pay.square { left: calc(50% + 401px); top: 22.17px; animation-delay: -1.2s; }
+    .pay.stripe { left: calc(50% + 358px); top: 368.17px; animation-delay: -4.1s; }
+    .pay.paypal { left: calc(50% - 770px); top: -2.83px; animation-delay: -2.6s; }
+    .pay.qb { left: calc(50% - 769.57px); top: 331.53px; height: auto; background: none; animation-delay: -5.3s; }
+    .pay.qb .card { position: relative; top: 0; rotate: -5deg; gap: 9.6px; padding: 24px; border-radius: 28.8px; }
+    .pay.qb .ic { width: 64.8px; height: 64.8px; }
+    .pay.qb .name { font-size: 24px; line-height: 28.8px; letter-spacing: -0.24px; }
+    .pay.qb .what { font-size: 16.8px; line-height: 24px; letter-spacing: -0.168px; background-image: linear-gradient(89.24deg, #8c8c8c 12.15%, rgba(140, 140, 140, 0) 106.9%); }
+    .pay.qb .when { font-size: 12px; line-height: 12px; left: calc(100% + 32.4px); }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+    /* ---------- 5. CTA + footer (Figma 53-10992, white in Figma, dark here) ---------- */
+    .foot { height: 920px; overflow: hidden; }
+    .foot-inner { position: relative; width: 1440px; height: 100%; margin: 0 auto; }
+    .cta-block { position: absolute; left: 220px; top: 120px; width: 506px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+    .cta-block h2 { font-weight: 500; font-size: 28px; line-height: 40px; letter-spacing: -1.12px; white-space: nowrap; }
+    .cta-block h2 span { display: block; }
+    .cta-block h2 .fade { background: linear-gradient(90deg, #fdfdfd, #a3a3a3); -webkit-background-clip: text; background-clip: text; color: transparent; width: max-content; }
+    /* the struck price takes the card's grey and the new price the title white, so $59 is what you read first */
+    .cta-block h2 s { color: var(--soft); text-decoration-color: var(--soft); text-decoration-thickness: from-font; }
+    .cta-block h2 b { font-weight: inherit; color: var(--title); }
+    .apply {
+      position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 172px; padding: 12px 24px; border-radius: 12px;
+      background: linear-gradient(180deg, #ffffff, #e9e9e9); color: #000; font-size: 16px; line-height: 20px; white-space: nowrap;
+      box-shadow: 0 70px 10px rgba(0, 0, 0, 0), 0 45px 9px rgba(0, 0, 0, 0.01), 0 25px 7.5px rgba(0, 0, 0, 0.05), 0 11px 5.5px rgba(0, 0, 0, 0.09), 0 3px 3px rgba(0, 0, 0, 0.1);
+      transition: transform 160ms var(--ease-out), filter 150ms ease;
+    }
+    .apply::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 2px 5.9px rgba(0, 0, 0, 0.18); pointer-events: none; }
+    @media (hover: hover) and (pointer: fine) { .apply:hover { filter: brightness(0.96); } }
+    .apply:active { transform: scale(0.98); }
+    .big-r { position: absolute; left: 788.8px; top: 0; width: 651.2px; height: 646.06px; display: grid; place-items: center; pointer-events: none; }
+    .big-r img { width: 533.17px; height: 525.984px; rotate: 15deg; }
+    /* the footer frosts the big "r" behind it; on dark a hard-edged blur shows as a line, so the blur fades in over 140px */
+    .footer-blur { position: absolute; left: 0; right: 0; bottom: 0; height: 656px; pointer-events: none; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); -webkit-mask: linear-gradient(180deg, transparent 0, #000 140px); mask: linear-gradient(180deg, transparent 0, #000 140px); }
+    .footer { position: absolute; left: 0; right: 0; bottom: 0; height: 536px; }
+    .footer-in { position: absolute; left: 220px; top: 101px; width: 1000px; display: flex; flex-direction: column; gap: 120px; }
+    .footer-row { display: flex; gap: 190px; align-items: flex-start; }
+    .footer-row > img { width: 90px; height: 24px; flex: none; }
+    .cols { display: flex; }
+    .col { width: 240px; display: flex; flex-direction: column; gap: 24px; font-size: 16px; line-height: 24px; white-space: nowrap; }
+    .col h3 { font-weight: 400; font-size: 16px; line-height: 24px; text-transform: uppercase; color: var(--title); }
+    .col ul { display: flex; flex-direction: column; gap: 16px; }
+    .col a { color: var(--soft); transition: color 150ms ease; }
+    @media (hover: hover) and (pointer: fine) { .col a:hover { color: var(--title); } }
+    .legal { font-size: 14px; line-height: 24px; text-transform: uppercase; color: var(--title); }
+
+    /* ---------- Narrow screens ---------- */
+    @media (max-width: 1100px) {
+      /* the payment cards are the proof here, so two stay on smaller screens: PayPal over the figure, Stripe under it,
+         scaled down and bleeding off the edges the way they do in the Figma frame */
+      .profit { height: auto; padding: 150px 16px; }
+      .profit-copy { position: relative; top: auto; left: auto; translate: none; margin: 0 auto; }
+      .pay.square, .pay.qb { display: none; }
+      .pay.paypal { left: -40px; top: 24px; scale: 0.72; transform-origin: 0 0; }
+      .pay.stripe { left: auto; right: -64px; top: auto; bottom: 34px; scale: 0.72; transform-origin: 100% 100%; }
+      .foot-inner { width: 100%; }
+      .cta-block { left: 32px; }
+      .footer-in { left: 32px; width: calc(100% - 64px); }
+      .footer-row { gap: 48px; flex-wrap: wrap; }
+      .big-r { left: auto; right: -120px; }
+    }
+    @media (max-width: 720px) {
+      .hero-sec { height: auto; padding: 72px 0 80px; }
+      .brand { position: relative; top: 0; margin: 0 auto 72px; translate: none; left: 0; }
+      .offer { position: relative; top: 0; left: 0; translate: none; width: auto; margin: 0 auto; padding: 0 16px; }
+      .offer h1 { font-size: 40px; line-height: 52px; letter-spacing: -1.2px; }
+      .card-col { width: min(382px, 100%); }
+      .tex-wrap { top: 280px; }
+      .feedback { height: 424px; }
+      .fb-title { top: 64px; width: calc(100% - 32px); translate: -50% 0; text-indent: 0; font-size: 34px; line-height: 44px; letter-spacing: -1.6px; }
+      .fb-title .hand { width: 169.6px; height: 34px; margin-right: 7px; vertical-align: -2px; }
+      .fb-window { top: 220px; -webkit-mask: linear-gradient(180deg, #000 calc(100% - 25px), transparent calc(100% + 25px)); mask: linear-gradient(180deg, #000 calc(100% - 25px), transparent calc(100% + 25px)); }
+      .profit { padding: 128px 16px 136px; }
+      .profit-copy h2 { width: min(590px, 100%); font-size: 40px; line-height: 50px; letter-spacing: -1.2px; }
+      .profit-copy a { font-size: 17px; line-height: 24px; }
+      .pay.paypal { left: -22px; top: 18px; scale: 0.6; }
+      .pay.stripe { right: -88px; bottom: 26px; scale: 0.6; }
+      /* logos: narrower edge fades so four or five read at once on a phone */
+      .logos { height: 104px; }
+      .logo-window { width: 100%; -webkit-mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
+      .logo { margin-right: 48px; zoom: 0.85; }
+      .foot { height: auto; }
+      .foot-inner { height: auto; padding: 80px 0 48px; }
+      .cta-block { position: relative; left: 0; top: 0; width: auto; padding: 0 16px; }
+      .cta-block h2 { font-size: 24px; line-height: 34px; white-space: normal; }
+      .cta-block h2 .fade { width: auto; }
+      .footer-blur { display: none; }
+      .footer { position: relative; height: auto; margin-top: 96px; }
+      .footer-in { position: relative; left: 0; top: 0; width: auto; padding: 0 16px; gap: 64px; }
+      .cols { flex-wrap: wrap; gap: 40px 0; }
+      .col { width: 50%; min-width: 160px; }
+      .big-r { right: -260px; opacity: 0.6; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee, .pay { animation: none; }
+      .slot > .in, .slot > .out { animation-duration: 1ms; }
+      .card-col:hover .panel::before { transform: none; }
+      .roll > span, .rc > span { transition: none; }
+      .cta:hover .cta-line:first-child .rc > span, .cta:focus-visible .cta-line:first-child .rc > span, .apply:hover .cta-line:first-child .rc > span, .apply:focus-visible .cta-line:first-child .rc > span { transform: none; }
+      .cta:hover .cta-line.alt .rc > span, .cta:focus-visible .cta-line.alt .rc > span, .apply:hover .cta-line.alt .rc > span, .apply:focus-visible .cta-line.alt .rc > span { transform: translateY(100%); }
+      .card-col:hover .roll > span, .card-col:focus-within .roll > span { translate: none; }
+    }
+  </style>
+  <script src="assets/bf/dots-mask.js"></script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="fb-tone" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="1.0327" intercept="-0.0327" />
+        <feFuncG type="linear" slope="1.0586" intercept="-0.0586" />
+        <feFuncB type="linear" slope="1.0680" intercept="-0.0680" />
+      </feComponentTransfer>
+    </filter>
+  </svg>
+
+  <!-- 1. Hero -->
+  <section class="sec hero-sec" id="hero">
+    <a class="brand" href="https://rendy.io/" aria-label="Rendy home"><img src="assets/lp/logo.svg" alt="Rendy" /></a>
+    <div class="tex-wrap" aria-hidden="true">
+      <img src="assets/bf/texture-red-4.svg" alt="" />
+      <div class="glow" id="glow"></div>
+    </div>
+    <div class="offer">
+      <h1>Black Friday Offer</h1>
+      <div class="card-col">
+        <article class="shell" aria-labelledby="plan-name">
+          <div class="panel">
+            <div class="lights" aria-hidden="true">
+              <div class="sheet a"><div><img src="assets/bf/lights-1.svg" alt="" /></div></div>
+              <div class="sheet b"><div><img src="assets/bf/lights-2.svg" alt="" /></div></div>
+            </div>
+            <img class="stars" src="assets/bf/stars-5.svg" alt="" aria-hidden="true" />
+            <div class="ribbon"><p class="ribbon-band grain"><span class="sr-only">Save $240, Black Friday</span><span class="roll" style="--d:0ms" aria-hidden="true"><span><span>Save $240</span><span>Save $240</span></span></span><span class="roll dot-roll" style="--d:60ms" aria-hidden="true"><span><span><span class="dot"></span></span><span><span class="dot"></span></span></span></span><span class="roll" style="--d:120ms" aria-hidden="true"><span><span>Black Friday</span><span>Black Friday</span></span></span></p></div>
+            <div class="head-row"><h2 id="plan-name">5 Listings</h2><p class="sub">Annual Plan</p></div>
+            <p class="price"><span class="was"><span class="sr-only">Normally </span>$79</span><span class="now"><span class="sr-only">, now </span>$59</span><span class="per">/Month</span></p>
+            <div class="cta-group"><a class="cta" href="#checkout" aria-label="Get Started" data-roll="Get Started|Get Annual Plan"></a><p class="note-14">Billed annually</p></div>
+          </div>
+          <div class="bottom">
+            <div class="countdown">
+              <div class="countdown-top"><span>Offer ends in</span><span class="date">Mon, Nov 30, 11:59 PM PT</span></div>
+              <div class="clock" role="timer" aria-label="Offer ends Monday November 30 at 11:59 PM Pacific">
+                <div class="unit"><span class="digits" data-unit="d" aria-hidden="true"></span><span class="name">Days</span></div>
+                <span class="colon" aria-hidden="true"></span>
+                <div class="unit"><span class="digits" data-unit="h" aria-hidden="true"></span><span class="name">Hrs</span></div>
+                <span class="colon" aria-hidden="true"></span>
+                <div class="unit"><span class="digits" data-unit="m" aria-hidden="true"></span><span class="name">Min</span></div>
+                <span class="colon" aria-hidden="true"></span>
+                <div class="unit"><span class="digits" data-unit="s" aria-hidden="true"></span><span class="name">Sec</span></div>
+              </div>
+            </div>
+            <ul class="features">
+              <li><img src="assets/bf/check.svg" alt="" />5 Listing every month</li>
+              <li><img src="assets/bf/check.svg" alt="" />$15 per additional Listings</li>
+              <li><img src="assets/bf/check.svg" alt="" />Unused Listing credits roll over</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Feedback -->
+  <section class="sec feedback on-black" aria-labelledby="fb-title">
+    <h2 class="fb-title" id="fb-title"><span class="sr-only">Unfiltered</span><svg class="hand" viewBox="0 0 239.5 48.05" aria-hidden="true"><path fill="url(#hand-fade)" d="M27.7436 12.4314C27.7436 14.5114 27.6156 16.7194 27.3596 19.0554C27.1036 21.3914 26.6876 23.7434 26.1116 26.1114C25.5356 28.4474 24.7836 30.6714 23.8556 32.7834C22.9596 34.8634 21.8556 36.7354 20.5436 38.3994C19.2316 40.0314 17.6956 41.3274 15.9356 42.2874C14.2076 43.2474 12.2236 43.7274 9.98361 43.7274C6.91161 43.7274 4.47961 42.7514 2.68761 40.7994C0.895608 38.8474 -0.000391722 35.9194 -0.000391722 32.0154C-0.000391722 29.8074 0.223608 27.6474 0.671608 25.5354C1.11961 23.3914 1.64761 21.4394 2.25561 19.6794C2.86361 17.9194 3.39161 16.4634 3.83961 15.3114C3.71161 15.0554 3.64761 14.7514 3.64761 14.3994C3.64761 13.4394 3.87161 12.5434 4.31961 11.7114C4.76761 10.8474 5.31161 10.1434 5.95161 9.59939C6.62361 9.05539 7.26361 8.78339 7.87161 8.78339C8.35161 8.78339 8.73561 8.95939 9.02361 9.31139C9.34361 9.66339 9.50361 10.2074 9.50361 10.9434C9.50361 11.7434 9.23161 12.8314 8.68761 14.2074C8.17561 15.5834 7.58361 17.2154 6.91161 19.1034C6.23961 20.9594 5.63161 23.0554 5.08761 25.3914C4.57561 27.6954 4.31961 30.1754 4.31961 32.8314C4.31961 34.8794 4.86361 36.4474 5.95161 37.5354C7.03961 38.5914 8.65561 39.1194 10.7996 39.1194C12.5596 39.1194 14.0956 38.5594 15.4076 37.4394C16.7196 36.3194 17.8236 34.7994 18.7196 32.8794C19.6476 30.9274 20.3996 28.7194 20.9756 26.2554C21.5836 23.7914 22.0476 21.2154 22.3676 18.5274C22.7196 15.8394 22.9756 13.1994 23.1356 10.6074C23.1996 9.77539 23.4396 9.16739 23.8556 8.78339C24.3036 8.36739 24.8476 8.15939 25.4876 8.15939C25.9676 8.15939 26.3676 8.25539 26.6876 8.44739C27.0396 8.60739 27.2956 8.99139 27.4556 9.59939C27.6476 10.2074 27.7436 11.1514 27.7436 12.4314ZM36.8374 42.6714C35.9094 42.6714 35.0774 42.1434 34.3414 41.0874C33.6054 40.0314 33.2374 38.6714 33.2374 37.0074C33.2374 35.1834 33.4774 33.2314 33.9574 31.1514C34.4694 29.0714 35.0934 26.9594 35.8294 24.8154C36.5654 22.6394 37.2854 20.5434 37.9894 18.5274C38.1494 18.1114 38.3734 17.8074 38.6614 17.6154C38.9814 17.3914 39.4614 17.2794 40.1014 17.2794C41.2534 17.2794 41.8294 17.8394 41.8294 18.9594C41.8294 19.2154 41.7014 19.7914 41.4454 20.6874C41.1894 21.5834 40.8534 22.6874 40.4374 23.9994C40.0534 25.3114 39.6534 26.7354 39.2374 28.2714C38.8214 29.7754 38.4534 31.2954 38.1334 32.8314C37.8134 34.3674 37.5894 35.7914 37.4614 37.1034C37.9734 36.5594 38.5494 35.7274 39.1894 34.6074C39.8614 33.4874 40.5814 32.2234 41.3494 30.8154C42.1174 29.3754 42.9174 27.9354 43.7494 26.4954C44.5814 25.0234 45.4134 23.6794 46.2454 22.4634C47.1094 21.2154 47.9414 20.2234 48.7414 19.4874C49.5734 18.7194 50.3414 18.3354 51.0454 18.3354C52.0694 18.3354 52.9334 18.6554 53.6374 19.2954C54.3734 19.9034 54.9334 20.9914 55.3174 22.5594C55.7334 24.0954 55.9414 26.2714 55.9414 29.0874C55.9414 30.5914 56.0854 31.9994 56.3734 33.3114C56.6934 34.6234 57.1894 35.6794 57.8614 36.4794C58.5654 37.2474 59.4614 37.6314 60.5494 37.6314C62.1814 37.6314 63.6374 37.3434 64.9174 36.7674C66.1974 36.1594 67.3014 35.4874 68.2294 34.7514C69.1894 33.9834 69.9894 33.3114 70.6294 32.7354C71.2694 32.1274 71.7654 31.8234 72.1174 31.8234C72.8534 31.8234 73.2214 32.2074 73.2214 32.9754C73.2214 33.2954 72.9814 33.8074 72.5014 34.5114C72.0534 35.1834 71.4134 35.9514 70.5814 36.8154C69.7814 37.6474 68.8534 38.4634 67.7974 39.2634C66.7734 40.0314 65.6694 40.6714 64.4854 41.1834C63.3334 41.6954 62.1654 41.9514 60.9814 41.9514C58.7734 41.9514 56.9654 41.5194 55.5574 40.6554C54.1814 39.7914 53.1574 38.3674 52.4854 36.3834C51.8454 34.3994 51.5254 31.7434 51.5254 28.4154C51.5254 26.5914 51.4134 25.2634 51.1894 24.4314C50.9974 23.5674 50.6294 22.9914 50.0854 22.7034C49.7014 23.3754 49.2054 24.3354 48.5974 25.5834C47.9894 26.7994 47.2854 28.1594 46.4854 29.6634C45.7174 31.1674 44.9014 32.6874 44.0374 34.2234C43.2054 35.7274 42.3574 37.1194 41.4934 38.3994C40.6294 39.6794 39.7974 40.7194 38.9974 41.5194C38.1974 42.2874 37.4774 42.6714 36.8374 42.6714ZM70.6481 48.0474C70.1041 48.0474 69.6721 47.8554 69.3521 47.4714C69.0321 47.0874 68.8721 46.4474 68.8721 45.5514C68.8721 43.9514 68.9521 42.3034 69.1121 40.6074C69.3041 38.8794 69.4001 37.2794 69.4001 35.8074C69.4001 32.4474 69.0961 29.6794 68.4881 27.5034C67.9121 25.2954 66.6481 23.8074 64.6961 23.0394C64.2481 22.8794 63.9281 22.7034 63.7361 22.5114C63.5121 22.3194 63.4001 22.0154 63.4001 21.5994C63.4001 21.1514 63.5761 20.7834 63.9281 20.4954C64.2481 20.2074 64.8561 20.0634 65.7521 20.0634C66.4881 20.0634 67.4641 20.0954 68.6801 20.1594C69.8961 20.2234 71.2081 20.2874 72.6161 20.3514C73.6081 16.7994 74.7281 13.8554 75.9761 11.5194C77.2241 9.18339 78.5841 7.34339 80.0561 5.99939C81.5601 4.65539 83.1441 3.69539 84.8081 3.11939C86.5041 2.54339 88.2641 2.25539 90.0881 2.25539C90.8881 2.25539 91.4001 2.36739 91.6241 2.59139C91.8481 2.78339 91.9601 3.08739 91.9601 3.50339C91.9601 4.01539 91.8001 4.55939 91.4801 5.13539C91.1601 5.67939 90.5041 6.03139 89.5121 6.19139C87.3361 6.57539 85.4001 7.27939 83.7041 8.30339C82.0081 9.32739 80.5361 10.8154 79.2881 12.7674C78.0401 14.6874 77.0001 17.2154 76.1681 20.3514C79.2401 20.2874 81.8801 20.1274 84.0881 19.8714C86.2961 19.5834 88.1361 19.2794 89.6081 18.9594C91.1121 18.6074 92.3121 18.3194 93.2081 18.0954C94.1041 17.8394 94.7921 17.7114 95.2721 17.7114C95.8161 17.7114 96.1521 17.8554 96.2801 18.1434C96.4081 18.4314 96.4721 18.7354 96.4721 19.0554C96.4721 19.6634 95.8961 20.2554 94.7441 20.8314C93.5921 21.3754 92.0721 21.8714 90.1841 22.3194C88.3281 22.7354 86.2801 23.0714 84.0401 23.3274C81.8001 23.5834 79.5921 23.7114 77.4161 23.7114C77.0641 23.7114 76.7121 23.7114 76.3601 23.7114C76.0401 23.7114 75.7041 23.7114 75.3521 23.7114C75.2881 23.9354 75.2401 24.1754 75.2081 24.4314C74.8881 26.2874 74.5681 28.2554 74.2481 30.3354C73.9601 32.3834 73.6881 34.3994 73.4321 36.3834C73.2081 38.3354 73.0321 40.1114 72.9041 41.7114C72.7761 43.3114 72.7121 44.5914 72.7121 45.5514C72.7121 46.3514 72.5201 46.9594 72.1361 47.3754C71.7521 47.8234 71.2561 48.0474 70.6481 48.0474ZM71.8001 23.5194C70.8721 23.4234 70.0081 23.2954 69.2081 23.1354C69.6241 23.6154 69.9761 24.1754 70.2641 24.8154C70.5841 25.4554 70.8561 26.1434 71.0801 26.8794C71.3041 25.6954 71.5441 24.5754 71.8001 23.5194ZM89.0749 41.0154C88.4669 41.0154 87.9229 40.7914 87.4429 40.3434C86.9629 39.8634 86.7229 39.1274 86.7229 38.1354C86.7229 37.4314 86.8189 36.4554 87.0109 35.2074C87.2029 33.9274 87.4589 32.5354 87.7789 31.0314C88.0989 29.5274 88.4349 28.0394 88.7869 26.5674C89.1709 25.0634 89.5549 23.7194 89.9389 22.5354C90.3229 21.3514 90.6589 20.4714 90.9469 19.8954C91.2029 19.4474 91.4429 19.1594 91.6669 19.0314C91.9229 18.9034 92.1629 18.8394 92.3869 18.8394C92.8349 18.8394 93.2189 18.9834 93.5389 19.2714C93.8909 19.5594 94.0669 20.1194 94.0669 20.9514C94.0669 21.4314 93.9709 22.2314 93.7789 23.3514C93.6189 24.4394 93.3949 25.7194 93.1069 27.1914C92.8509 28.6314 92.5629 30.1194 92.2429 31.6554C91.9549 33.1594 91.6669 34.5994 91.3789 35.9754C91.0909 37.3514 90.8669 38.5034 90.7069 39.4314C90.5789 39.9434 90.3549 40.3434 90.0349 40.6314C89.7469 40.8874 89.4269 41.0154 89.0749 41.0154ZM93.7789 14.4714C93.0429 14.4714 92.3389 14.2474 91.6669 13.7994C91.0269 13.3514 90.7069 12.6314 90.7069 11.6394C90.7069 10.8074 90.8989 10.1354 91.2829 9.62339C91.6989 9.11139 92.1789 8.74339 92.7229 8.51939C93.2989 8.26339 93.7949 8.13539 94.2109 8.13539C94.6269 8.13539 95.0909 8.23139 95.6029 8.42339C96.1469 8.58339 96.6109 8.90339 96.9949 9.38339C97.3789 9.83139 97.5709 10.5034 97.5709 11.3994C97.5709 12.0074 97.3629 12.5514 96.9469 13.0314C96.5309 13.4794 96.0189 13.8314 95.4109 14.0874C94.8349 14.3434 94.2909 14.4714 93.7789 14.4714ZM107.384 45.6954C104.92 45.6954 102.984 44.8954 101.576 43.2954C100.2 41.6634 99.5119 39.3914 99.5119 36.4794C99.5119 34.6874 99.7519 32.5914 100.232 30.1914C100.744 27.7594 101.384 25.1994 102.152 22.5114C102.952 19.7914 103.816 17.1034 104.744 14.4474C105.672 11.7914 106.568 9.32739 107.432 7.05539C108.328 4.75139 109.112 2.83139 109.784 1.29539C110.168 0.431388 110.712 -0.000612259 111.416 -0.000612259C112.376 -0.000612259 112.856 0.591388 112.856 1.77539C112.856 2.15939 112.68 2.94339 112.328 4.12739C111.976 5.31139 111.512 6.78339 110.936 8.54339C110.36 10.2714 109.736 12.1914 109.064 14.3034C108.392 16.4154 107.704 18.5914 107 20.8314C106.328 23.0394 105.704 25.2314 105.128 27.4074C104.552 29.5514 104.088 31.5674 103.736 33.4554C103.384 35.3434 103.208 36.9594 103.208 38.3034C103.208 39.1674 103.432 39.8554 103.88 40.3674C104.36 40.8474 105 41.0874 105.8 41.0874C107.272 41.0874 108.744 40.7994 110.216 40.2234C111.72 39.6154 113.16 38.8794 114.536 38.0154C115.912 37.1194 117.16 36.2394 118.28 35.3754C119.432 34.4794 120.408 33.7434 121.208 33.1674C122.008 32.5594 122.568 32.2554 122.888 32.2554C123.592 32.2554 123.944 32.6394 123.944 33.4074C123.944 33.6634 123.688 34.1434 123.176 34.8474C122.664 35.5194 121.976 36.3194 121.112 37.2474C120.248 38.1754 119.24 39.1354 118.088 40.1274C116.968 41.0874 115.784 41.9994 114.536 42.8634C113.32 43.6954 112.088 44.3674 110.84 44.8794C109.624 45.4234 108.472 45.6954 107.384 45.6954ZM115.738 28.4154C114.874 28.3514 114.474 27.7914 114.538 26.7354C114.57 26.4794 114.746 26.1754 115.066 25.8234C115.386 25.4394 115.754 25.2314 116.17 25.1994C117.162 25.1034 118.378 24.9594 119.818 24.7674C121.29 24.5434 122.906 24.2874 124.666 23.9994C124.986 22.4314 125.37 20.7834 125.818 19.0554C126.266 17.3274 126.762 15.6474 127.306 14.0154C127.85 12.3514 128.426 10.8474 129.034 9.50339C129.642 8.15939 130.282 7.10339 130.954 6.33539C131.306 5.98339 131.626 5.74339 131.914 5.61539C132.202 5.45539 132.458 5.37539 132.682 5.37539C133.13 5.37539 133.482 5.56739 133.738 5.95139C134.026 6.33539 134.17 6.76739 134.17 7.24739C134.17 7.50339 134.122 7.75939 134.026 8.01539C133.386 9.80739 132.698 12.0154 131.962 14.6394C131.226 17.2634 130.442 20.1274 129.61 23.2314C132.554 22.7514 135.498 22.2394 138.442 21.6954C141.386 21.1514 143.914 20.6554 146.026 20.2074C146.634 19.9514 147.098 19.9994 147.418 20.3514C147.77 20.7034 147.946 21.0554 147.946 21.4074C147.946 21.8554 147.818 22.1914 147.562 22.4154C147.338 22.6394 147.098 22.8314 146.842 22.9914L146.794 23.0394C146.154 23.2954 145.194 23.5994 143.914 23.9514C142.634 24.2714 141.162 24.6234 139.498 25.0074C137.834 25.3594 136.058 25.7114 134.17 26.0634C132.314 26.4154 130.474 26.7354 128.65 27.0234C127.914 29.8394 127.162 32.7354 126.394 35.7114C125.658 38.6554 124.922 41.5514 124.186 44.3994C123.866 45.5514 123.498 46.2714 123.082 46.5594C122.698 46.8794 122.282 47.0394 121.834 47.0394C121.322 47.0394 120.874 46.8474 120.49 46.4634C120.138 46.0794 120.09 45.2954 120.346 44.1114L123.85 27.7434C121.93 28.0314 120.234 28.2394 118.762 28.3674C117.322 28.4954 116.314 28.5114 115.738 28.4154ZM158.724 22.3194C158.724 24.3674 157.748 26.3514 155.796 28.2714C153.844 30.1914 150.868 31.9514 146.868 33.5514C146.74 34.3514 146.676 35.0234 146.676 35.5674C146.676 36.8474 146.836 37.7754 147.156 38.3514C147.508 38.9274 148.084 39.2154 148.884 39.2154C150.068 39.2154 151.396 38.8474 152.868 38.1114C154.34 37.3434 155.86 36.3674 157.428 35.1834C158.996 33.9674 160.532 32.6874 162.036 31.3434C163.572 29.9994 164.98 28.7354 166.26 27.5514C167.54 26.3354 168.628 25.3594 169.524 24.6234C170.42 23.8554 171.028 23.4714 171.348 23.4714C171.796 23.4714 172.164 23.6794 172.452 24.0954C172.74 24.4794 172.884 25.0074 172.884 25.6794C172.884 26.5114 172.836 27.4714 172.74 28.5594C172.644 29.6154 172.532 30.7354 172.404 31.9194C173.236 29.5834 174.276 27.5514 175.524 25.8234C176.804 24.0634 178.164 22.6074 179.604 21.4554C181.044 20.3034 182.452 19.4394 183.828 18.8634C185.204 18.2874 186.388 17.9994 187.38 17.9994C188.308 17.9994 188.996 18.1754 189.444 18.5274C189.892 18.8794 190.116 19.2954 190.116 19.7754C190.116 20.2234 189.908 20.6394 189.492 21.0234C189.108 21.3754 188.212 21.8394 186.804 22.4154C185.172 23.0554 183.636 23.8074 182.196 24.6714C180.788 25.5354 179.476 26.7194 178.26 28.2234C177.044 29.6954 175.956 31.6634 174.996 34.1274C174.036 36.5914 173.22 39.7594 172.548 43.6314C172.42 44.3994 172.196 44.9434 171.876 45.2634C171.556 45.6154 171.172 45.7914 170.724 45.7914C170.404 45.7914 170.084 45.6474 169.764 45.3594C169.444 45.1034 169.188 44.4794 168.996 43.4874C168.804 42.4634 168.708 40.8634 168.708 38.6874C168.708 37.2154 168.772 35.6154 168.9 33.8874C169.06 32.1594 169.284 30.3514 169.572 28.4634C168.1 30.0634 166.468 31.7434 164.676 33.5034C162.884 35.2314 161.028 36.8474 159.108 38.3514C157.188 39.8234 155.3 41.0234 153.444 41.9514C151.588 42.8794 149.86 43.3434 148.26 43.3434C146.564 43.3434 145.204 42.7514 144.18 41.5674C143.156 40.3834 142.644 38.6234 142.644 36.2874C142.644 33.5994 142.996 31.1354 143.7 28.8954C144.404 26.6554 145.316 24.7194 146.436 23.0874C147.556 21.4234 148.756 20.1434 150.036 19.2474C151.316 18.3514 152.548 17.9034 153.732 17.9034C155.332 17.9034 156.564 18.3194 157.428 19.1514C158.292 19.9514 158.724 21.0074 158.724 22.3194ZM147.636 30.0474C148.596 29.3754 149.636 28.6234 150.756 27.7914C151.908 26.9594 152.884 26.1114 153.684 25.2474C154.516 24.3514 154.932 23.5354 154.932 22.7994C154.932 22.3514 154.82 22.0314 154.596 21.8394C154.372 21.6474 153.988 21.5514 153.444 21.5514C152.58 21.5514 151.78 21.9834 151.044 22.8474C150.308 23.6794 149.652 24.7514 149.076 26.0634C148.5 27.3434 148.02 28.6714 147.636 30.0474ZM207.235 23.0874C207.235 24.1114 206.915 25.1194 206.275 26.1114C205.635 27.0714 204.787 27.9994 203.731 28.8954C202.675 29.7594 201.507 30.5754 200.227 31.3434C198.947 32.1114 197.667 32.7834 196.387 33.3594C195.107 33.9354 193.939 34.3994 192.883 34.7514C192.627 35.9994 192.499 37.1034 192.499 38.0634C192.499 38.6714 192.643 39.1034 192.931 39.3594C193.219 39.6154 193.667 39.7434 194.275 39.7434C195.619 39.7434 197.043 39.5034 198.547 39.0234C200.051 38.5434 201.587 37.9194 203.155 37.1514C204.723 36.3834 206.227 35.5674 207.667 34.7034C209.107 33.8394 210.419 33.0234 211.603 32.2554C212.819 31.4874 213.827 30.8634 214.627 30.3834C215.427 29.9034 215.955 29.6634 216.211 29.6634C216.595 29.6634 216.883 29.7914 217.075 30.0474C217.299 30.2714 217.411 30.5434 217.411 30.8634C217.411 31.1194 217.011 31.6154 216.211 32.3514C215.443 33.0874 214.403 33.9514 213.091 34.9434C211.779 35.9034 210.307 36.8954 208.675 37.9194C207.043 38.9434 205.347 39.9034 203.587 40.7994C201.859 41.6954 200.179 42.4154 198.547 42.9594C196.947 43.5034 195.507 43.7754 194.227 43.7754C192.563 43.7754 191.267 43.1514 190.339 41.9034C189.411 40.6554 188.947 38.7194 188.947 36.0954C188.947 34.3354 189.171 32.5594 189.619 30.7674C190.099 28.9754 190.739 27.2634 191.539 25.6314C192.371 23.9674 193.283 22.4954 194.275 21.2154C195.299 19.9034 196.371 18.8794 197.491 18.1434C198.611 17.3754 199.699 16.9914 200.755 16.9914C202.771 16.9914 204.355 17.5514 205.507 18.6714C206.659 19.7914 207.235 21.2634 207.235 23.0874ZM193.891 31.0554C194.883 30.4474 195.907 29.8074 196.963 29.1354C198.019 28.4634 198.995 27.7754 199.891 27.0714C200.787 26.3674 201.507 25.6314 202.051 24.8634C202.627 24.0634 202.915 23.2474 202.915 22.4154C202.915 21.2314 202.275 20.6394 200.995 20.6394C200.195 20.6394 199.347 21.1514 198.451 22.1754C197.587 23.1674 196.755 24.4634 195.955 26.0634C195.155 27.6634 194.467 29.3274 193.891 31.0554ZM231.192 19.6314C232.056 17.5514 232.872 15.4074 233.64 13.1994C234.44 10.9914 235.16 8.73539 235.8 6.43139C235.992 5.79139 236.28 5.27939 236.664 4.89539C237.08 4.47939 237.56 4.27139 238.104 4.27139C238.488 4.27139 238.808 4.41539 239.064 4.70339C239.352 4.99139 239.496 5.37539 239.496 5.85539C239.496 6.46339 239.256 7.51939 238.776 9.02339C238.328 10.5274 237.752 12.4314 237.048 14.7354C236.376 17.0394 235.688 19.6954 234.984 22.7034C234.312 25.6794 233.736 28.9754 233.256 32.5914C232.808 36.2074 232.584 40.0634 232.584 44.1594C232.584 45.0554 232.392 45.7914 232.008 46.3674C231.624 46.9754 231.16 47.2794 230.616 47.2794C230.296 47.2794 229.992 47.1994 229.704 47.0394C229.416 46.8794 229.16 46.4954 228.936 45.8874C228.744 45.3114 228.584 44.3994 228.456 43.1514C228.328 41.8714 228.264 40.1434 228.264 37.9674C228.264 36.3034 228.36 34.4954 228.552 32.5434C227.08 35.1994 225.48 37.5194 223.752 39.5034C222.056 41.4554 220.408 42.9594 218.808 44.0154C217.24 45.0714 215.896 45.5994 214.776 45.5994C213.4 45.5994 212.28 45.1354 211.416 44.2074C210.584 43.3114 210.168 41.9674 210.168 40.1754C210.168 38.6074 210.536 36.9914 211.272 35.3274C212.008 33.6634 212.984 32.0314 214.2 30.4314C215.416 28.7994 216.76 27.2634 218.232 25.8234C219.704 24.3834 221.176 23.1194 222.648 22.0314C224.152 20.9114 225.544 20.0474 226.824 19.4394C228.104 18.7994 229.144 18.4794 229.944 18.4794C230.264 18.4794 230.552 18.5914 230.808 18.8154C231.064 19.0394 231.192 19.3114 231.192 19.6314ZM230.568 21.1194C230.344 21.3434 230.072 21.5674 229.752 21.7914C229.432 22.0154 229.08 22.2554 228.696 22.5114C227.288 23.5034 225.736 24.6554 224.04 25.9674C222.376 27.2474 220.776 28.6554 219.24 30.1914C217.736 31.6954 216.504 33.2794 215.544 34.9434C214.584 36.6074 214.104 38.3194 214.104 40.0794C214.104 40.8474 214.488 41.2314 215.256 41.2314C216.312 41.2314 217.464 40.7354 218.712 39.7434C219.992 38.7194 221.304 37.3114 222.648 35.5194C223.992 33.6954 225.336 31.5674 226.68 29.1354C228.024 26.6714 229.32 23.9994 230.568 21.1194Z"/><defs><linearGradient id="hand-fade" x1="221.04" y1="83.7754" x2="166.093" y2="17.0843" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0.36"/></linearGradient></defs></svg>feedback from real estate photographers</h2>
+    <div class="fb-window">
+      <div class="marquee fb-track" id="fb-track" style="--dur:16.7s"></div>
+    </div>
+  </section>
+
+  <!-- 3. Logos -->
+  <section class="sec logos" aria-label="Trusted by real estate photographers">
+    <div class="logo-window">
+      <div class="marquee logo-track" id="logo-track" style="--dur:52s"></div>
+    </div>
+  </section>
+
+  <!-- 4. Profit -->
+  <section class="sec profit">
+    <div class="pay paypal" aria-hidden="true"><div class="card"><span class="ic"><img src="assets/lp/ic-paypal.svg" alt="" /></span><span class="txt"><span class="when">5 min</span><span class="name">Paypal</span><span class="what">You received a payment of $199.00</span></span></div></div>
+    <div class="pay square" aria-hidden="true"><div class="card"><span class="ic"><img src="assets/lp/ic-square.svg" alt="" /></span><span class="txt"><span class="when">5 min</span><span class="name">Square</span><span class="what sm">Invoice paid — Reel Pack ($199)</span></span></div></div>
+    <div class="pay stripe" aria-hidden="true"><div class="card"><span class="ic"><img src="assets/lp/ic-stripe.svg" alt="" /></span><span class="txt"><span class="when">5 min</span><span class="name">Stripe</span><span class="what">You received a payment of $299.00</span></span></div></div>
+    <div class="pay qb" aria-hidden="true"><div class="card"><span class="ic"><img src="assets/lp/ic-qb.svg" alt="" /></span><span class="txt"><span class="when">1 hour</span><span class="name">QuickBooks</span><span class="what">Invoice paid — Reel Pack ($149)</span></span></div></div>
+    <div class="profit-copy">
+      <h2>$1,687,500 in profit by Rendy users</h2>
+      <a href="https://rendy.io/">How are people selling Rendy?</a>
+    </div>
+  </section>
+
+  <!-- 5. CTA + footer -->
+  <section class="sec foot">
+    <div class="foot-inner">
+      <div class="big-r" aria-hidden="true"><img src="assets/lp/big-r-dark.svg" alt="" /></div>
+      <div class="cta-block">
+        <h2><span>Black Friday Offer.</span><span class="fade"><s><span class="sr-only">Normally </span>$79</s> <b>$59/month</b>, billed annually.</span></h2>
+        <a class="apply" href="#checkout" aria-label="Get Started" data-roll="Get Started|Get Annual Plan"></a>
+      </div>
+      <div class="footer-blur" aria-hidden="true"></div>
+      <footer class="footer">
+        <div class="footer-in">
+          <div class="footer-row">
+            <img src="assets/lp/logo.svg" alt="Rendy" />
+            <nav class="cols" aria-label="Footer">
+              <div class="col"><h3>Rendy Academy</h3><ul><li><a href="#">Why Rendy</a></li><li><a href="#">How to sell</a></li><li><a href="#">Naming Ideas</a></li><li><a href="#">Marketing Kits</a></li></ul></div>
+              <div class="col"><h3>Terms &amp; Legal</h3><ul><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li><li><a href="#">Referral Terms</a></li></ul></div>
+              <div class="col"><h3>Company &amp; Contact</h3><ul><li><a href="#">Instagram</a></li><li><a href="#">Support</a></li><li><a href="#">Partnerships</a></li></ul></div>
+            </nav>
+          </div>
+          <p class="legal">© 2025 Zero21 Media LLC DBA Rendy. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const OFFER_END = new Date('2026-11-30T23:59:59-08:00').getTime();
+      const q = new URLSearchParams(location.search);
+      const offset = q.get('now') && !isNaN(Date.parse(q.get('now'))) ? Date.parse(q.get('now')) - Date.now() : 0;
+      const now = () => Date.now() + offset;
+
+      // ---- Feedback screenshots (Figma crops), two sets end to end so the drift loops without a seam ----
+      const SHOTS = [
+        { h: 131, img: 'height:172.64%;left:-11.05%;top:-36.13%;width:120.31%', alt: 'Message: Game changer! It’s amazing' },
+        { h: 85, img: 'height:110.11%;left:-0.8%;top:-9.41%;width:101.59%', alt: 'Customer message' },
+        { h: 156, img: 'height:102.61%;left:2.16%;top:-2.33%;width:95.86%', alt: 'Message: Honestly the best site I have tried. The renders are so clean. Fantastic job' },
+        { h: 98.125, img: 'height:182.17%;left:-8.09%;top:-42.68%;width:114.46%', alt: 'Message: We are already using Rendy and our customers love it' },
+        { h: 105, img: 'height:174.95%;left:-5.69%;top:-27.94%;width:112.09%', alt: 'Customer message' },
+      ];
+      const fbSet = hidden => `<div class="set"${hidden ? ' aria-hidden="true"' : ''}>${SHOTS.map((s, i) => `<div class="fb-item"><div class="shot" style="height:${s.h}px"><img src="assets/lp/feedback-${i + 1}.jpg" loading="lazy" decoding="async" alt="${hidden ? '' : s.alt}" style="${s.img}" /></div></div>`).join('')}</div>`;
+      document.getElementById('fb-track').innerHTML = fbSet(false) + fbSet(true);
+
+      // ---- Logos (Figma order and sizes); showingaustin is already the white version ----
+      const LOGOS = [
+        ['eli', 167.513, 33, 'Real Estate Photographer Pro'], ['isaac', 57.972, 37, 'Sam Isaac Photography'], ['timeless', 65.425, 35, 'Timeless Nebraska Media'],
+        ['img1888', 29.911, 36, 'Photography studio'], ['austin', 152, 38, 'Showing Austin', true], ['kan', 39.8, 35, 'Kando Photo'],
+        ['mohr', 66.166, 36, 'Mohr Real Estate Media'], ['elit', 186.182, 32, 'Elite Media'], ['jesse-mark', 163.019, 32, 'Jesse Gabriel Photography'],
+        ['garcia', 49.013, 34, 'Agents Choice Media'], ['img1886', 72.053, 34, 'FL Property Photography'],
+      ];
+      const logoSet = hidden => `<div class="set"${hidden ? ' aria-hidden="true"' : ''}>${LOGOS.map(([f, w, h, alt, asIs]) => `<div class="logo${asIs ? ' as-is' : ''}" style="width:${w}px;height:${h}px"><img src="assets/lp/${f}.png" loading="lazy" decoding="async" alt="${hidden ? '' : alt}" /></div>`).join('')}</div>`;
+      document.getElementById('logo-track').innerHTML = logoSet(false) + logoSet(true);
+      // drift speeds measured on rendy.io: logos 37 px/s, feedback 87 px/s
+      const setSpeed = (el, pxPerSec) => { const w = el.firstElementChild.getBoundingClientRect().width; if (w) el.style.setProperty('--dur', `${(w / pxPerSec).toFixed(2)}s`); };
+      const speeds = () => { setSpeed(document.getElementById('fb-track'), 87); setSpeed(document.getElementById('logo-track'), 37); };
+      addEventListener('load', speeds);
+      addEventListener('resize', () => { clearTimeout(speeds.t); speeds.t = setTimeout(speeds, 200); });
+
+      // ---- Button label roll (letters), with the font's kerning put back ----
+      const rollChars = t => [...t].map((c, i) => c === ' ' ? '<span class="rc-space"> </span>' : `<span class="rc" style="--i:${i}"><span>${c}</span></span>`).join('');
+      document.querySelectorAll('[data-roll]').forEach(a => { const [t, alt] = a.dataset.roll.split('|'); a.innerHTML = `<span class="cta-roll" aria-hidden="true"><span class="cta-line">${rollChars(t)}</span><span class="cta-line alt">${rollChars(alt)}</span></span>`; });
+      const kc = document.createElement('canvas').getContext('2d');
+      const kern = () => document.querySelectorAll('.cta-line').forEach(line => {
+        kc.font = getComputedStyle(line).font;
+        const text = [...line.children].map(c => c.textContent).join('');
+        [...line.children].forEach((c, i) => { c.style.marginRight = `${(kc.measureText(text.slice(0, i + 1)).width - kc.measureText(text.slice(0, i)).width - kc.measureText(text[i]).width).toFixed(3)}px`; });
+      });
+      kern(); document.fonts && document.fonts.ready.then(kern);
+      document.querySelectorAll('.cta, .apply').forEach(a => a.addEventListener('click', e => { e.preventDefault(); console.warn('[rendy-dark] checkout URL is not set yet'); }));
+
+      // ---- Countdown: only the digit that changes rolls ----
+      const pad = n => String(n).padStart(2, '0');
+      function setDigits(el, str) {
+        while (el.children.length < str.length) { const s = document.createElement('span'); s.className = 'slot'; s.innerHTML = '<span></span>'; el.prepend(s); }
+        while (el.children.length > str.length) el.firstElementChild.remove();
+        [...str].forEach((ch, i) => {
+          const slot = el.children[i], cur = slot.querySelector('span:not(.out)');
+          if (cur.textContent === ch) return;
+          if (!cur.textContent || reduceMotion.matches || document.hidden) { cur.textContent = ch; return; }
+          slot.querySelectorAll('.out').forEach(n => n.remove());
+          const next = document.createElement('span'); next.textContent = ch; next.className = 'in'; cur.className = 'out'; slot.append(next);
+          next.addEventListener('animationend', () => { cur.remove(); next.className = ''; }, { once: true });
+        });
+      }
+      (function tick() {
+        const left = Math.max(0, OFFER_END - now()), s = Math.floor(left / 1000);
+        const parts = { d: pad(Math.floor(s / 86400)), h: pad(Math.floor(s % 86400 / 3600)), m: pad(Math.floor(s % 3600 / 60)), s: pad(s % 60) };
+        document.querySelectorAll('[data-unit]').forEach(el => setDigits(el, parts[el.dataset.unit]));
+        if (left > 0) setTimeout(tick, 1000 - (now() % 1000) + 5);
+      })();
+
+      // ---- Ribbon grain (size 0.2, density 70%, 10% specks as in Figma) ----
+      (() => {
+        const c = document.createElement('canvas'); c.width = c.height = 256;
+        const g = c.getContext('2d'), img = g.createImageData(256, 256);
+        let seed = 1130; const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+        for (let i = 0; i < img.data.length; i += 4) { const speck = rnd() < 0.7, white = rnd() < 0.5; img.data[i] = img.data[i + 1] = img.data[i + 2] = white ? 255 : 0; img.data[i + 3] = speck ? Math.round(0.075 * 255) : 0; }
+        g.putImageData(img, 0, 0); root.style.setProperty('--noise', `url(${c.toDataURL()})`);
+      })();
+
+      // ---- Cursor glow on the hero texture ----
+      const glow = document.getElementById('glow');
+      let tx = 0, ty = 0, cx = null, cy = null, raf = 0;
+      const step = () => { const k = reduceMotion.matches ? 1 : 0.14; cx += (tx - cx) * k; cy += (ty - cy) * k; glow.style.setProperty('--gx', `${cx.toFixed(1)}px`); glow.style.setProperty('--gy', `${cy.toFixed(1)}px`); raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.3 ? requestAnimationFrame(step) : 0; };
+      addEventListener('pointermove', e => {
+        const r = glow.getBoundingClientRect();
+        const over = e.clientX > r.left - 24 && e.clientX < r.right + 24 && e.clientY > r.top - 24 && e.clientY < r.bottom + 24;
+        if (!over) { root.classList.remove('is-lit'); return; }
+        tx = e.clientX - r.left; ty = e.clientY - r.top;
+        if (cx === null || !root.classList.contains('is-lit')) { cx = tx; cy = ty; }
+        root.classList.add('is-lit'); if (!raf) raf = requestAnimationFrame(step);
+      }, { passive: true });
+      document.documentElement.addEventListener('mouseleave', () => root.classList.remove('is-lit'));
+      addEventListener('scroll', () => root.classList.remove('is-lit'), { passive: true });
+    })();
+  </script>
+</body>
+</html>
