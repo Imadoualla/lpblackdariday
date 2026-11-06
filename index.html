@@ -38,7 +38,7 @@
     :focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-    /* Sections follow Figma's 1440 frames, in the order price, logos, camera control, profit, footer;
+    /* Sections follow Figma's 1440 frames, in the order price, logos, camera control, profit, case studies, footer;
        the 50px gaps between them are the page background */
     .sec { position: relative; width: 100%; }
     .sec + .sec { margin-top: 50px; }
@@ -266,6 +266,36 @@
     .pay.qb .when { font-size: 12px; line-height: 12px; left: calc(100% + 32.4px); }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
+    /* ---------- 4b. Case studies (rendy.io/academy "How to sell"), a swipeable row of cards ---------- */
+    .cases { padding: 100px 0 0; }
+    .cs-inner { width: min(1000px, 100% - 32px); margin: 0 auto; }
+    .cs-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px; }
+    .cs-heading { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .cs-heading h2 { font-weight: 500; font-size: 48px; line-height: 56px; letter-spacing: -1.44px; background: linear-gradient(89.66deg, #fdfdfd 32.4%, #8c8c8c 99.92%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .cs-nav { display: flex; gap: 10px; flex: none; }
+    .cs-arrow { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border-radius: 50%; border: 1px solid #1f1f1f; background: #0d0d0d; color: var(--white); cursor: pointer; transition: background-color 150ms ease, opacity 150ms ease, transform 160ms var(--ease-out); }
+    .cs-arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .cs-arrow:disabled { opacity: 0.3; cursor: default; }
+    .cs-arrow:active:not(:disabled) { transform: scale(0.94); }
+    @media (hover: hover) and (pointer: fine) { .cs-arrow:hover:not(:disabled) { background: #1a1a1a; } }
+    .cs-track { display: flex; gap: 26px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 0 0 8px; margin: 0; }
+    .cs-track::-webkit-scrollbar { display: none; }
+    .cs-track:focus-visible { outline-offset: 6px; border-radius: 12px; }
+    .cs-card { flex: 0 0 calc((100% - 52px) / 3); scroll-snap-align: start; }
+    .cs-card a { height: 100%; display: flex; flex-direction: column; gap: 16px; padding: 6px 6px 8px; border-radius: 20px; background: #0a0a0a; border: 1px solid #181818; transition: border-color 200ms ease; }
+    .cs-img { display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: #141414; }
+    .cs-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms var(--ease-out); }
+    .cs-txt { flex: 1; display: flex; flex-direction: column; gap: 6px; padding: 0 8px; }
+    .cs-t { font-weight: 500; font-size: 17px; line-height: 24px; letter-spacing: -0.17px; color: var(--title); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .cs-d { font-size: 14px; line-height: 20px; color: #8c8c8c; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+    .cs-btn { display: flex; align-items: center; justify-content: center; gap: 6px; height: 44px; border-radius: 12px; background: #141414; color: var(--white); font-size: 16px; line-height: 20px; transition: background-color 150ms ease; }
+    .cs-btn svg { width: 16px; height: 16px; }
+    @media (hover: hover) and (pointer: fine) {
+      .cs-card a:hover { border-color: #262626; }
+      .cs-card a:hover .cs-img img { transform: scale(1.04); }
+      .cs-card a:hover .cs-btn { background: #1f1f1f; }
+    }
+
     /* ---------- 5. CTA + footer (Figma 53-10992, white in Figma, dark here) ---------- */
     .foot { height: 920px; overflow: hidden; }
     .foot-inner { position: relative; width: 1440px; height: 100%; margin: 0 auto; }
@@ -321,6 +351,7 @@
       .cc-sliders { flex: none; gap: 24px; }
       .cc-col { flex: 1 1 0; min-width: 0; gap: 18px; }
       .sl { width: 100%; }
+      .cs-card { flex-basis: calc((100% - 26px) / 2); }
       .foot-inner { width: 100%; }
       .cta-block { left: 32px; }
       .footer-in { left: 32px; width: calc(100% - 64px); }
@@ -356,6 +387,13 @@
       .logos-cap { font-size: 15px; padding: 0 16px; }
       .logo-window { width: 100%; -webkit-mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
       .logo { margin-right: 48px; zoom: 0.85; }
+      .cases { padding: 72px 0 0; }
+      .cs-inner { width: 100%; }
+      .cs-head { padding: 0 16px; margin-bottom: 28px; }
+      .cs-heading h2 { font-size: 34px; line-height: 42px; letter-spacing: -1.02px; }
+      .cs-nav { display: none; }
+      .cs-track { gap: 14px; padding: 0 16px 8px; scroll-padding: 0 16px; }
+      .cs-card { flex-basis: min(300px, 80%); }
       .foot { height: auto; }
       .foot-inner { height: auto; padding: 80px 0 48px; }
       .cta-block { position: relative; left: 0; top: 0; width: auto; padding: 0 16px; }
@@ -370,6 +408,8 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .marquee, .pay, .cc-tile, .cc-box, .cc-cur { animation: none; }
+      .cs-track { scroll-behavior: auto; }
+      .cs-img img { transition: none; }
       .slot > .in, .slot > .out { animation-duration: 1ms; }
       .card-col:hover .panel::before { transform: none; }
       .roll > span, .rc > span { transition: none; }
@@ -389,6 +429,7 @@
       .logo { opacity: 1; }
       .profit-copy a { color: #c08bff; }
       .col a { color: var(--title); }
+      .cs-btn { background: #1f1f1f; }
     }
   </style>
   <script src="assets/bf/dots-mask.js"></script>
@@ -493,7 +534,34 @@
     </div>
   </section>
 
-  <!-- 5. CTA + footer -->
+  <!-- 5. Case studies -->
+  <section class="sec cases" aria-labelledby="cs-title">
+    <div class="cs-inner">
+      <div class="cs-head">
+        <div class="cs-heading">
+          <p class="nf"><span class="nf-in"><span class="nf-txt">Case Studies</span></span></p>
+          <h2 id="cs-title">How photographers sell Rendy</h2>
+        </div>
+        <div class="cs-nav">
+          <button class="cs-arrow" type="button" data-dir="-1" aria-label="Previous case studies" aria-controls="cs-track"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 5 7 10l5 5" /></svg></button>
+          <button class="cs-arrow" type="button" data-dir="1" aria-label="Next case studies" aria-controls="cs-track"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5" /></svg></button>
+        </div>
+      </div>
+      <ul class="cs-track" id="cs-track" tabindex="0" aria-label="Case studies, scroll sideways for more">
+        <li class="cs-card"><a href="https://rendy.io/academy/case/eli" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/eli.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">We&#x27;ve Partnered with Eli Jones!</span><span class="cs-d">Here’s what Eli has to say about where social media is headed in 2026, and why tools like Rendy matter</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/tim" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/tim.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Tim added video to every listing</span><span class="cs-d">His entry strategy is simple: new agents get the first video free.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/scott-prokop" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/scott-prokop.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">After 10,000 shoots, here&#x27;s how Scott upsells video in minutes</span><span class="cs-d">Every new product that comes out, Scott tries it. If it fits, it goes into the workflow. Rendy made the cut.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/haley" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/haley.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 40%" /></span><span class="cs-txt"><span class="cs-t">How Haley turned her archive into a video offering overnight</span><span class="cs-d">She didn&#x27;t launch video with a new package. She started by giving it away.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/sam" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/sam.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 50%" /></span><span class="cs-txt"><span class="cs-t">How Sam is using Rendy to get booked more</span><span class="cs-d">Every client gets a Rendy Video. It&#x27;s not just a listing tool, it&#x27;s how Sam stands out.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/jesse" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/jesse.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Jesse increased his AOV by 51%</span><span class="cs-d">Jesse runs a real estate media company in…</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/steven-and-eduardo" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/steven-eduardo.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">Why Steven &amp; Eduardo are replacing gimbal video with Rendy</span><span class="cs-d">Elite Media started as a side hustle in Glasgow…</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/suzanne" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/suzanne.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Suzanne turns a free Reel into $135</span><span class="cs-d">Rendy adds $65–$135 more per shoot, and drives additional upsells.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/keith" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/keith.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 35%" /></span><span class="cs-txt"><span class="cs-t">How Keith grew AOV with Rendy</span><span class="cs-d">They include the ‘Social Six-Pack’ in their packages so agents who don&#x27;t normally order video start using it.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. CTA + footer -->
   <section class="sec foot">
     <div class="foot-inner">
       <div class="big-r" aria-hidden="true"><img src="assets/lp/big-r-dark.svg" alt="" /></div>
@@ -556,6 +624,14 @@
       const labels = () => document.querySelectorAll('[data-roll]').forEach(a => { const [t, alt] = a.dataset.roll.split('|'); a.setAttribute('aria-label', touch.matches ? alt : t); });
       labels(); touch.addEventListener('change', labels);
       document.querySelectorAll('.cta, .apply').forEach(a => a.addEventListener('click', e => { e.preventDefault(); console.warn('[rendy-dark] checkout URL is not set yet'); }));
+
+      // ---- Case studies: arrows move one card; they switch off at either end ----
+      const csTrack = document.getElementById('cs-track'), csArrows = document.querySelectorAll('.cs-arrow');
+      const csStep = () => { const c = csTrack.children[0], n = csTrack.children[1]; return n ? n.offsetLeft - c.offsetLeft : csTrack.clientWidth; };
+      const csUpdate = () => { const max = csTrack.scrollWidth - csTrack.clientWidth - 2; csArrows[0].disabled = csTrack.scrollLeft <= 2; csArrows[1].disabled = csTrack.scrollLeft >= max; };
+      csArrows.forEach(b => b.addEventListener('click', () => csTrack.scrollBy({ left: csStep() * Number(b.dataset.dir), behavior: reduceMotion.matches ? 'auto' : 'smooth' })));
+      csTrack.addEventListener('scroll', csUpdate, { passive: true });
+      addEventListener('resize', csUpdate); csUpdate();
 
       // ---- Countdown: only the digit that changes rolls ----
       const pad = n => String(n).padStart(2, '0');
