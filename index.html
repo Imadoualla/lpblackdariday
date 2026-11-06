@@ -38,7 +38,7 @@
     :focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-    /* Sections follow Figma's 1440 frames, in the order price, case studies, logos, profit, footer;
+    /* Sections follow Figma's 1440 frames, in the order price, case studies, logos, footer;
        the 50px gaps between them are the page background */
     .sec { position: relative; width: 100%; }
     .sec + .sec { margin-top: 50px; }
@@ -157,57 +157,23 @@
     .card-col:focus-within .roll > span { translate: 0 -20px; }
 
     /* ---------- 3. Logos (Figma 53-11506): every logo brightened to read on dark, drifting left at 40% ---------- */
-    .logos { padding: 40px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
-    .logos-cap { font-size: 16px; line-height: 24px; letter-spacing: -0.16px; color: var(--soft); text-align: center; }
+    .logos { padding: 48px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+    .logos-cap { font-size: 20px; line-height: 28px; letter-spacing: -0.3px; color: var(--soft); text-align: center; }
     .logo-window {
-      width: min(1200px, 100% - 32px); height: 40px; overflow: hidden;
+      width: min(1200px, 100% - 32px); height: 54px; overflow: hidden;
       -webkit-mask: linear-gradient(90deg, transparent 67.8px, #000 93.2px, #000 calc(100% - 93.2px), transparent calc(100% - 67.8px));
       mask: linear-gradient(90deg, transparent 67.8px, #000 93.2px, #000 calc(100% - 93.2px), transparent calc(100% - 67.8px));
     }
     .marquee { display: flex; width: max-content; animation: drift var(--dur) linear infinite; will-change: transform; }
     .marquee > .set { display: flex; flex: none; align-items: flex-start; }
     @keyframes drift { to { transform: translateX(-50%); } }
-    .logo-track { margin-left: -324.53px; height: 40px; }
-    .logo-track .set { align-items: center; height: 40px; }
-    .logo { flex: none; margin-right: 80px; opacity: 0.4; transition: opacity 300ms ease; }
+    .logo-track { margin-left: -324.53px; height: 54px; }
+    .logo-track .set { align-items: center; height: 54px; }
+    .logo { flex: none; margin-right: 72px; zoom: 1.35; opacity: 0.4; transition: opacity 300ms ease; }
     .logo img { width: 100%; height: 100%; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.35) contrast(1.25); }
     .logo.as-is img { filter: none; }
     @media (hover: hover) and (pointer: fine) { .logo:hover { opacity: 1; } }
 
-    /* ---------- 4. Profit (Figma 53-10944, white in Figma, dark here) ---------- */
-    .profit { height: 528px; overflow: hidden; }
-    .profit-copy { position: absolute; top: 50%; left: 50%; translate: calc(-50% - 1px) calc(-50% + 1px); display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
-    .profit-copy h2 {
-      width: 590px; font-weight: 500; font-size: 64px; line-height: 80px; letter-spacing: -1.92px;
-      background: linear-gradient(89.66deg, #fdfdfd 32.4%, #8c8c8c 99.92%); -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .profit-copy a { font-size: 20px; line-height: 28px; letter-spacing: -0.4px; color: var(--purple); text-decoration: underline; text-underline-position: from-font; text-decoration-thickness: from-font; white-space: nowrap; transition: color 150ms ease; }
-    @media (hover: hover) and (pointer: fine) { .profit-copy a:hover { color: #c08bff; } }
-    /* payment cards: a faint slab, and the card tilted on top of it, floating like rendy.io's (6s, 15px) */
-    .pay { position: absolute; width: 420px; height: 109.667px; border-radius: 28px; background: rgba(255, 255, 255, 0.03); animation: float 6s ease-in-out infinite; }
-    .pay .card {
-      position: absolute; left: 0; top: 20.49px; width: 420px; display: flex; align-items: center; gap: 8.167px; padding: 23.333px; border-radius: 28px;
-      background: #111113; border: 1px solid #1c1c1f; overflow: clip; rotate: 3deg; transform-origin: center;
-      box-shadow: 0 47.5px 14px rgba(0, 0, 0, 0), 0 30.7px 12.6px rgba(0, 0, 0, 0.04), 0 16.8px 9.8px rgba(0, 0, 0, 0.12), 0 7px 7px rgba(0, 0, 0, 0.2), 0 1.4px 4.2px rgba(0, 0, 0, 0.2);
-    }
-    .pay .ic { position: relative; flex: none; width: 63px; height: 63px; border-radius: 50%; background: #1c1c1f; display: grid; place-items: center; }
-    .pay .ic img { width: 35px; height: 35px; }
-    .pay .txt { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.333px; white-space: nowrap; }
-    .pay .name { font-weight: 500; font-size: 23.333px; line-height: 28px; letter-spacing: -0.233px; color: var(--white); }
-    .pay .what { font-size: 18.667px; line-height: 23.333px; letter-spacing: -0.187px; background: linear-gradient(91.13deg, #8c8c8c 4.3%, rgba(140, 140, 140, 0) 115.2%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .pay .what.sm { font-size: 16.333px; letter-spacing: -0.163px; background-image: linear-gradient(90.65deg, #8c8c8c 12.1%, rgba(140, 140, 140, 0) 120.7%); }
-    /* the time sits at the right end of the name row, inside the card's padding, as on rendy.io */
-    .pay .when { position: absolute; top: 4px; right: 0; font-weight: 300; font-size: 11.667px; line-height: 11.667px; letter-spacing: -0.07px; color: rgba(255, 255, 255, 0.3); }
-    .pay.square { left: calc(50% + 401px); top: 22.17px; animation-delay: -1.2s; }
-    .pay.stripe { left: calc(50% + 358px); top: 368.17px; animation-delay: -4.1s; }
-    .pay.paypal { left: calc(50% - 770px); top: -2.83px; animation-delay: -2.6s; }
-    .pay.qb { left: calc(50% - 769.57px); top: 331.53px; height: auto; background: none; animation-delay: -5.3s; }
-    .pay.qb .card { position: relative; top: 0; rotate: -5deg; gap: 9.6px; padding: 24px; border-radius: 28.8px; }
-    .pay.qb .ic { width: 64.8px; height: 64.8px; }
-    .pay.qb .name { font-size: 24px; line-height: 28.8px; letter-spacing: -0.24px; }
-    .pay.qb .what { font-size: 16.8px; line-height: 24px; letter-spacing: -0.168px; background-image: linear-gradient(89.24deg, #8c8c8c 12.15%, rgba(140, 140, 140, 0) 106.9%); }
-    .pay.qb .when { font-size: 12px; line-height: 12px; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
     /* ---------- 4b. Case studies (rendy.io/academy "How to sell"), a swipeable row of cards ---------- */
     /* the small bevelled label pill */
@@ -282,13 +248,6 @@
 
     /* ---------- Narrow screens ---------- */
     @media (max-width: 1100px) {
-      /* the payment cards are the proof here, so two stay on smaller screens: PayPal over the figure, Stripe under it,
-         scaled down and bleeding off the edges the way they do in the Figma frame */
-      .profit { height: auto; padding: 150px 16px; }
-      .profit-copy { position: relative; top: auto; left: auto; translate: none; margin: 0 auto; }
-      .pay.square, .pay.qb { display: none; }
-      .pay.paypal { left: -40px; top: 24px; scale: 0.72; transform-origin: 0 0; }
-      .pay.stripe { left: auto; right: -64px; top: auto; bottom: 34px; scale: 0.72; transform-origin: 100% 100%; }
       .cs-card { flex-basis: calc((100% - 26px) / 2); }
       .foot-inner { width: 100%; }
       .cta-block { left: 32px; }
@@ -303,16 +262,11 @@
       .offer h1 { font-size: 40px; line-height: 52px; letter-spacing: -1.2px; }
       .card-col { width: min(382px, 100%); }
       .tex-wrap { top: 331px; }
-      .profit { padding: 128px 16px 136px; }
-      .profit-copy h2 { width: min(590px, 100%); font-size: 40px; line-height: 50px; letter-spacing: -1.2px; }
-      .profit-copy a { font-size: 17px; line-height: 24px; }
-      .pay.paypal { left: -22px; top: 18px; scale: 0.6; }
-      .pay.stripe { right: -88px; bottom: 26px; scale: 0.6; }
       /* logos: narrower edge fades so four or five read at once on a phone */
       .logos { padding: 32px 0; gap: 14px; }
-      .logos-cap { font-size: 15px; padding: 0 16px; }
+      .logos-cap { font-size: 17px; line-height: 24px; padding: 0 16px; }
       .logo-window { width: 100%; -webkit-mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
-      .logo { margin-right: 48px; zoom: 0.85; }
+      .logo { margin-right: 44px; zoom: 1.08; }
       .cases { padding: 32px 0 0; }
       .cs-inner { width: 100%; }
       .cs-head { padding: 0 16px; margin-bottom: 28px; }
@@ -333,7 +287,7 @@
       .big-r { right: -260px; opacity: 0.6; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .marquee, .pay { animation: none; }
+      .marquee { animation: none; }
       .cs-track { scroll-behavior: auto; }
       .cs-img img { transition: none; }
       .slot > .in, .slot > .out { animation-duration: 1ms; }
@@ -353,7 +307,6 @@
       .cta .cta-line.alt .rc > span, .apply .cta-line.alt .rc > span { transform: none !important; }
       .glow { --gr: 300px; opacity: 0.8; }
       .logo { opacity: 1; }
-      .profit-copy a { color: #c08bff; }
       .col a { color: var(--title); }
       .cs-btn { background: #1f1f1f; }
     }
@@ -424,7 +377,7 @@
       <div class="cs-head">
         <div class="cs-heading">
           <p class="nf"><span class="nf-in"><span class="nf-txt">Case Studies</span></span></p>
-          <h2 id="cs-title">How photographers sell Rendy</h2>
+          <h2 id="cs-title">How photographers upsell Rendy</h2>
         </div>
         <div class="cs-nav">
           <button class="cs-arrow" type="button" data-dir="-1" aria-label="Previous case studies" aria-controls="cs-track"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 5 7 10l5 5" /></svg></button>
@@ -459,19 +412,7 @@
     </div>
   </section>
 
-  <!-- 4. Profit -->
-  <section class="sec profit">
-    <div class="pay paypal" aria-hidden="true"><div class="card"><span class="ic"><img src="assets/lp/ic-paypal.svg" alt="" /></span><span class="txt"><span class="when">5 min</span><span class="name">Paypal</span><span class="what">You received a payment of $199.00</span></span></div></div>
-    <div class="pay square" aria-hidden="true"><div class="card"><span class="ic"><img src="assets/lp/ic-square.svg" alt="" /></span><span class="txt"><span class="when">5 min</span><span class="name">Square</span><span class="what sm">Invoice paid — Reel Pack ($199)</span></span></div></div>
-    <div class="pay stripe" aria-hidden="true"><div class="card"><span class="ic"><img src="assets/lp/ic-stripe.svg" alt="" /></span><span class="txt"><span class="when">5 min</span><span class="name">Stripe</span><span class="what">You received a payment of $299.00</span></span></div></div>
-    <div class="pay qb" aria-hidden="true"><div class="card"><span class="ic"><img src="assets/lp/ic-qb.svg" alt="" /></span><span class="txt"><span class="when">1 hour</span><span class="name">QuickBooks</span><span class="what">Invoice paid — Reel Pack ($149)</span></span></div></div>
-    <div class="profit-copy">
-      <h2>$1,687,500 in profit by Rendy users</h2>
-      <a href="https://rendy.io/">How are people selling Rendy?</a>
-    </div>
-  </section>
-
-  <!-- 5. CTA + footer -->
+  <!-- 4. CTA + footer -->
   <section class="sec foot">
     <div class="foot-inner">
       <div class="big-r" aria-hidden="true"><img src="assets/lp/big-r-dark.svg" alt="" /></div>
