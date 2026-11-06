@@ -38,7 +38,7 @@
     :focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-    /* Sections follow Figma's 1440 frames, in the order price, logos, camera control, profit, case studies, footer;
+    /* Sections follow Figma's 1440 frames, in the order price, case studies, logos, profit, footer;
        the 50px gaps between them are the page background */
     .sec { position: relative; width: 100%; }
     .sec + .sec { margin-top: 50px; }
@@ -50,8 +50,12 @@
     .brand img { width: 100%; height: 100%; }
     .offer { position: absolute; top: 225.25px; left: 50%; translate: -50% 0; width: 429px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
     .offer h1 { font-weight: 500; font-size: 54px; line-height: 80px; letter-spacing: -1.62px; white-space: nowrap; }
+    /* the countdown under the title, as on the earlier pricing designs (the card's own countdown is the one read out) */
+    .hero-head { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .head-clock { display: flex; align-items: center; justify-content: space-between; width: 234px; }
+    .head-clock .digits { color: var(--title); }
 
-    .tex-wrap { position: absolute; z-index: 0; top: 389.75px; left: 50%; width: 778px; height: 321px; margin-left: -389px; pointer-events: none; }
+    .tex-wrap { position: absolute; z-index: 0; top: 440.75px; left: 50%; width: 778px; height: 321px; margin-left: -389px; pointer-events: none; }
     .tex-wrap > img { width: 100%; height: 100%; }
     .glow {
       --gx: 50%; --gy: 40%; --gr: 420px;
@@ -170,68 +174,6 @@
     .logo.as-is img { filter: none; }
     @media (hover: hover) and (pointer: fine) { .logo:hover { opacity: 1; } }
 
-    /* ---------- 3b. Camera Control (Figma 56-11537, white in Figma, dark here) ---------- */
-    .camera { height: 885px; overflow: hidden; isolation: isolate; }
-    /* Figma's halftone sheet, inverted to light dots on black, and its purple wash; both fade in at the top and out at the
-       bottom so neither edge of the section shows a seam. (Figma strokes sit inside their boxes, so paddings below are
-       Figma's padding minus the border.) */
-    .camera::before { content: ""; position: absolute; z-index: -1; left: calc(50% - 720px); top: -0.42px; width: 1946.949px; height: 1096.109px; background: url("assets/lp/cam-dots.webp") 0 0 / 100% 100% no-repeat; opacity: 0.26; mix-blend-mode: screen; pointer-events: none; -webkit-mask: linear-gradient(180deg, transparent 0, #000 160px, #000 560px, transparent 885px); mask: linear-gradient(180deg, transparent 0, #000 160px, #000 560px, transparent 885px); }
-    .camera::after { content: ""; position: absolute; z-index: -1; inset: 0; pointer-events: none; background: linear-gradient(171.46deg, rgba(167, 85, 247, 0.08) 0%, rgba(167, 85, 247, 0.04) 45%, rgba(167, 85, 247, 0) 70%); -webkit-mask: linear-gradient(180deg, transparent, #000 180px, #000 70%, transparent); mask: linear-gradient(180deg, transparent, #000 180px, #000 70%, transparent); }
-    .cc-head { position: absolute; top: 99.58px; left: 50%; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-    .nf { display: flex; padding: 4px; border-radius: 114px; background: linear-gradient(180deg, #181818, #181818 50%, #0b0b0b); }
-    .nf-in { display: flex; padding: 4px; border: 3px solid #1c1c1c; border-radius: 90px; overflow: clip; background: linear-gradient(180deg, #111, #0c0c0c); box-shadow: 0 0 0.225px 0.675px rgba(255, 255, 255, 0.04), 0 2.698px 2.923px -1.349px rgba(0, 0, 0, 0.6), 0 0.899px 3.598px 0.899px rgba(0, 0, 0, 0.4); }
-    .nf-txt { padding: 2px 12px; border-radius: 2000px; background: #0e0e0e; font-size: 16px; line-height: 16px; color: #8b8b8b; white-space: nowrap; }
-    .cc-title { display: flex; align-items: center; justify-content: center; gap: 15px; perspective: 900px; font-weight: 400; }
-    .cc-intro { font-weight: 500; font-size: 64px; line-height: 80px; letter-spacing: -1.92px; white-space: nowrap; background: linear-gradient(89.63deg, #fdfdfd 32.4%, #8c8c8c 99.92%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    /* the selection box: Figma already draws it in perspective, so rendy.io's tilt is applied on top of that rest pose */
-    .cc-mark { position: relative; flex: none; width: 343.44px; height: 80.01px; transform-style: preserve-3d; }
-    .cc-box { position: absolute; inset: 0; transform-origin: 50% 50%; animation: cc-tilt 7s ease-in-out infinite; }
-    .cc-words { position: absolute; left: 28.22px; top: 10.41px; height: 55.188px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-    .cc-words .a { font-size: 40px; line-height: 42.453px; letter-spacing: -2px; background: linear-gradient(261.09deg, #a755f7 13.09%, rgba(167, 85, 247, 0.45) 86.06%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .cc-words .b { font-size: 50px; line-height: 55.188px; letter-spacing: -2.5px; color: var(--purple); }
-    .cc-frame { position: absolute; left: 3.401px; top: 1.358px; width: 335.8px; height: 77.29px; }
-    .cc-bar { position: absolute; width: 42.453px; height: 8.491px; border: 2px solid #f9f9f9; border-radius: 15.143px; background: var(--purple); box-shadow: 0 0 0 1px #dec5f7, 0 19.1px 14.325px -7.162px rgba(167, 85, 247, 0.2), inset 0 0 4.775px #fff; }
-    .cc-bar.t { left: 150.07px; top: 0.37px; rotate: -1deg; }
-    .cc-bar.b { left: 150.07px; top: 71.15px; rotate: 1deg; }
-    .cc-bar.l { left: -16.981px; top: 35.761px; rotate: 90deg; }
-    .cc-bar.r { left: 317.97px; top: 35.761px; rotate: 90deg; }
-    .cc-cur { position: absolute; left: 340.1px; top: 62.35px; width: 35.88px; height: 32px; animation: cc-cursor 7s ease-in-out infinite; transform-origin: 0 0; pointer-events: none; }
-    .cc-cur > span { position: absolute; inset: 0; transform: rotate(7.09deg) skewX(-1.92deg); }
-    .cc-cur img { position: absolute; left: -7.94px; top: -1.86px; width: 51.883px; height: 60.915px; }
-    @keyframes cc-tilt { 0%, 14% { transform: none; } 40% { transform: rotateY(-13deg) rotateX(4deg); } 58% { transform: rotateY(13deg) rotateX(-3deg); } 66%, 100% { transform: none; } }
-    @keyframes cc-cursor { 0%, 4% { transform: translate(26px, 20px); } 12% { transform: translate(0, 0); } 14%, 66% { transform: translate(0, 0) scale(0.9); } 72% { transform: translate(7px, 4px); } 94%, 100% { transform: translate(26px, 20px); } }
-    /* the three faint camera-move tiles behind the card, floating like the payment cards */
-    .cc-tile {
-      position: absolute; z-index: 0; width: 87.266px; height: 87.266px; display: grid; place-items: center; border-radius: 20px; border: 0.6px solid rgba(148, 47, 246, 0.34); opacity: 0.2;
-      background: radial-gradient(87.3px 87.3px at 50% 0, rgba(167, 85, 247, 0.43), rgba(167, 85, 247, 0)); box-shadow: inset 0 21px 51.7px rgba(0, 0, 0, 0.07); animation: float 6s ease-in-out infinite;
-    }
-    .cc-tile img { width: 56px; height: 56px; }
-    .cc-tile.flip img { transform: scaleY(-1); }
-    .cc-tile.t1 { left: calc(50% + 473.4px); top: 692.56px; rotate: 8deg; animation-delay: -1.8s; }
-    .cc-tile.t2 { left: calc(50% - 589.33px); top: 670.19px; rotate: -8deg; animation-delay: -4.4s; }
-    .cc-tile.t3 { left: calc(50% - 571.67px); top: 250.24px; rotate: 8deg; animation-delay: -0.6s; }
-    /* the editor card: the same dark materials as the offer card */
-    .cc-card {
-      position: absolute; z-index: 1; top: 276.56px; left: 50%; translate: -50% 0; display: flex; padding: 32.593px; border-radius: 50px; background: #0a0a0a; border: 2px solid #181818; overflow: clip;
-      box-shadow: 0 31px 13px rgba(0, 0, 0, 0.04), 0 18px 11px rgba(0, 0, 0, 0.16), 0 8px 8px rgba(0, 0, 0, 0.24), 0 2px 4px rgba(0, 0, 0, 0.28);
-    }
-    .cc-panel { display: flex; align-items: center; gap: 20.756px; height: 397.815px; padding: 18.96px; border-radius: 32px; background: #000; border: 1.796px solid #161616; }
-    .cc-view { position: relative; flex: none; width: 639.963px; height: 356.304px; border-radius: 20.756px; border: 1.038px solid #19191b; overflow: clip; background: #0b0a0d; }
-    .cc-view img { position: absolute; left: 50%; top: calc(50% + 0.01px); width: 102.171%; height: auto; aspect-ratio: 653.854 / 369.655; translate: -50% -50%; }
-    .cc-side { display: flex; flex-direction: column; gap: 34.593px; height: 354.5px; }
-    .cc-sliders { flex: 1 0 0; min-height: 1px; display: flex; gap: 27.674px; }
-    .cc-col { display: flex; flex-direction: column; justify-content: space-between; }
-    .sl { width: 123.55px; padding: 6.919px 0; display: flex; flex-direction: column; gap: 17.296px; }
-    .sl-top { display: flex; justify-content: space-between; gap: 6px; font-size: 17.296px; line-height: 18.567px; letter-spacing: 0.0692px; color: var(--soft); white-space: nowrap; }
-    .sl-row { position: relative; height: 9.689px; }
-    .sl-row::before { content: ""; position: absolute; inset: 0; border-radius: 133.067px; background: #161618; border: 0.464px solid #1f1f22; }
-    .sl-row .fl { position: absolute; left: 0.494%; top: 0; height: 100%; width: var(--f); border-radius: 3094.577px; background: #fff; }
-    .sl-row .kn { position: absolute; left: var(--k); top: 50%; width: 21.4686px; height: 21.4686px; margin: -10.7343px 0 0 -10.7343px; border-radius: 50%; background: #fff; border: 2.90117px solid #000; }
-    .sl.off .fl { background: #262628; }
-    .sl.off .kn { background: #3a3a3d; }
-    .cc-apply { position: relative; display: flex; align-items: center; justify-content: center; padding: 13.837px 27.674px; border-radius: 13.837px; background: linear-gradient(180deg, #ffffff, #e9e9e9); color: #000; font-size: 20.756px; line-height: 27.674px; white-space: nowrap; }
-    .cc-apply::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 2px 5.9px rgba(0, 0, 0, 0.18); }
-
     /* ---------- 4. Profit (Figma 53-10944, white in Figma, dark here) ---------- */
     .profit { height: 528px; overflow: hidden; }
     .profit-copy { position: absolute; top: 50%; left: 50%; translate: calc(-50% - 1px) calc(-50% + 1px); display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
@@ -250,11 +192,12 @@
     }
     .pay .ic { position: relative; flex: none; width: 63px; height: 63px; border-radius: 50%; background: #1c1c1f; display: grid; place-items: center; }
     .pay .ic img { width: 35px; height: 35px; }
-    .pay .txt { position: relative; display: flex; flex-direction: column; gap: 2.333px; white-space: nowrap; }
+    .pay .txt { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.333px; white-space: nowrap; }
     .pay .name { font-weight: 500; font-size: 23.333px; line-height: 28px; letter-spacing: -0.233px; color: var(--white); }
     .pay .what { font-size: 18.667px; line-height: 23.333px; letter-spacing: -0.187px; background: linear-gradient(91.13deg, #8c8c8c 4.3%, rgba(140, 140, 140, 0) 115.2%); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .pay .what.sm { font-size: 16.333px; letter-spacing: -0.163px; background-image: linear-gradient(90.65deg, #8c8c8c 12.1%, rgba(140, 140, 140, 0) 120.7%); }
-    .pay .when { position: absolute; top: 0; left: calc(100% + 29px); font-weight: 300; font-size: 11.667px; line-height: 11.667px; letter-spacing: -0.07px; color: rgba(255, 255, 255, 0.3); translate: -100% 0; }
+    /* the time sits at the right end of the name row, inside the card's padding, as on rendy.io */
+    .pay .when { position: absolute; top: 4px; right: 0; font-weight: 300; font-size: 11.667px; line-height: 11.667px; letter-spacing: -0.07px; color: rgba(255, 255, 255, 0.3); }
     .pay.square { left: calc(50% + 401px); top: 22.17px; animation-delay: -1.2s; }
     .pay.stripe { left: calc(50% + 358px); top: 368.17px; animation-delay: -4.1s; }
     .pay.paypal { left: calc(50% - 770px); top: -2.83px; animation-delay: -2.6s; }
@@ -263,11 +206,15 @@
     .pay.qb .ic { width: 64.8px; height: 64.8px; }
     .pay.qb .name { font-size: 24px; line-height: 28.8px; letter-spacing: -0.24px; }
     .pay.qb .what { font-size: 16.8px; line-height: 24px; letter-spacing: -0.168px; background-image: linear-gradient(89.24deg, #8c8c8c 12.15%, rgba(140, 140, 140, 0) 106.9%); }
-    .pay.qb .when { font-size: 12px; line-height: 12px; left: calc(100% + 32.4px); }
+    .pay.qb .when { font-size: 12px; line-height: 12px; }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
     /* ---------- 4b. Case studies (rendy.io/academy "How to sell"), a swipeable row of cards ---------- */
-    .cases { padding: 100px 0 0; }
+    /* the small bevelled label pill */
+    .nf { display: flex; padding: 4px; border-radius: 114px; background: linear-gradient(180deg, #181818, #181818 50%, #0b0b0b); }
+    .nf-in { display: flex; padding: 4px; border: 3px solid #1c1c1c; border-radius: 90px; overflow: clip; background: linear-gradient(180deg, #111, #0c0c0c); box-shadow: 0 0 0.225px 0.675px rgba(255, 255, 255, 0.04), 0 2.698px 2.923px -1.349px rgba(0, 0, 0, 0.6), 0 0.899px 3.598px 0.899px rgba(0, 0, 0, 0.4); }
+    .nf-txt { padding: 2px 12px; border-radius: 2000px; background: #0e0e0e; font-size: 16px; line-height: 16px; color: #8b8b8b; white-space: nowrap; }
+    .cases { padding: 20px 0 0; }
     .cs-inner { width: min(1000px, 100% - 32px); margin: 0 auto; }
     .cs-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 40px; }
     .cs-heading { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -299,13 +246,15 @@
     /* ---------- 5. CTA + footer (Figma 53-10992, white in Figma, dark here) ---------- */
     .foot { height: 920px; overflow: hidden; }
     .foot-inner { position: relative; width: 1440px; height: 100%; margin: 0 auto; }
-    .cta-block { position: absolute; left: 220px; top: 120px; width: 506px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+    .cta-block { position: absolute; z-index: 2; left: 220px; top: 120px; width: 506px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
     .cta-block h2 { font-weight: 500; font-size: 28px; line-height: 40px; letter-spacing: -1.12px; white-space: nowrap; }
     .cta-block h2 span { display: block; }
     .cta-block h2 .fade { background: linear-gradient(90deg, #fdfdfd, #a3a3a3); -webkit-background-clip: text; background-clip: text; color: transparent; width: max-content; }
     /* the struck price takes the card's grey and the new price the title white, so $59 is what you read first */
     .cta-block h2 s { color: var(--soft); text-decoration-color: var(--soft); text-decoration-thickness: from-font; }
     .cta-block h2 b { font-weight: inherit; color: var(--title); }
+    /* the same countdown as under the hero title, between the offer line and the button */
+    .foot-clock { margin: -4px 0 4px; }
     .apply {
       position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 172px; padding: 12px 24px; border-radius: 12px;
       background: linear-gradient(180deg, #ffffff, #e9e9e9); color: #000; font-size: 16px; line-height: 20px; white-space: nowrap;
@@ -340,17 +289,6 @@
       .pay.square, .pay.qb { display: none; }
       .pay.paypal { left: -40px; top: 24px; scale: 0.72; transform-origin: 0 0; }
       .pay.stripe { left: auto; right: -64px; top: auto; bottom: 34px; scale: 0.72; transform-origin: 100% 100%; }
-      /* camera: the editor stacks, photo on top and the sliders under it */
-      .camera { height: auto; padding: 96px 16px 104px; }
-      .cc-head { position: relative; top: 0; left: 0; translate: none; }
-      .cc-tile { display: none; }
-      .cc-card { position: relative; top: 0; left: 0; translate: none; width: min(720px, 100%); margin: 48px auto 0; padding: 16px; border-radius: 32px; }
-      .cc-panel { flex-direction: column; align-items: stretch; width: 100%; height: auto; padding: 12px; gap: 24px; border-radius: 22px; }
-      .cc-view { width: 100%; height: auto; aspect-ratio: 639.963 / 356.304; border-radius: 14px; }
-      .cc-side { height: auto; gap: 24px; padding: 0 4px 4px; }
-      .cc-sliders { flex: none; gap: 24px; }
-      .cc-col { flex: 1 1 0; min-width: 0; gap: 18px; }
-      .sl { width: 100%; }
       .cs-card { flex-basis: calc((100% - 26px) / 2); }
       .foot-inner { width: 100%; }
       .cta-block { left: 32px; }
@@ -364,19 +302,7 @@
       .offer { position: relative; top: 0; left: 0; translate: none; width: auto; margin: 0 auto; padding: 0 16px; }
       .offer h1 { font-size: 40px; line-height: 52px; letter-spacing: -1.2px; }
       .card-col { width: min(382px, 100%); }
-      .tex-wrap { top: 280px; }
-      .camera { padding: 80px 16px 88px; }
-      .cc-title { flex-direction: column; gap: 6px; }
-      .cc-intro { font-size: 44px; line-height: 56px; letter-spacing: -1.32px; }
-      .cc-mark { zoom: 0.84; margin-right: 30px; }
-      .cc-card { margin-top: 40px; padding: 10px; border-radius: 26px; }
-      .cc-panel { padding: 8px; gap: 20px; border-radius: 18px; }
-      .cc-view { border-radius: 12px; }
-      .cc-side { padding: 0 8px 8px; }
-      .cc-sliders { gap: 20px; }
-      .sl { gap: 14px; }
-      .sl-top { font-size: 15px; line-height: 18px; }
-      .cc-apply { font-size: 18px; padding: 12px 20px; border-radius: 12px; }
+      .tex-wrap { top: 331px; }
       .profit { padding: 128px 16px 136px; }
       .profit-copy h2 { width: min(590px, 100%); font-size: 40px; line-height: 50px; letter-spacing: -1.2px; }
       .profit-copy a { font-size: 17px; line-height: 24px; }
@@ -387,7 +313,7 @@
       .logos-cap { font-size: 15px; padding: 0 16px; }
       .logo-window { width: 100%; -webkit-mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
       .logo { margin-right: 48px; zoom: 0.85; }
-      .cases { padding: 72px 0 0; }
+      .cases { padding: 32px 0 0; }
       .cs-inner { width: 100%; }
       .cs-head { padding: 0 16px; margin-bottom: 28px; }
       .cs-heading h2 { font-size: 34px; line-height: 42px; letter-spacing: -1.02px; }
@@ -407,7 +333,7 @@
       .big-r { right: -260px; opacity: 0.6; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .marquee, .pay, .cc-tile, .cc-box, .cc-cur { animation: none; }
+      .marquee, .pay { animation: none; }
       .cs-track { scroll-behavior: auto; }
       .cs-img img { transition: none; }
       .slot > .in, .slot > .out { animation-duration: 1ms; }
@@ -443,7 +369,18 @@
       <div class="glow" id="glow"></div>
     </div>
     <div class="offer">
-      <h1>Black Friday Offer</h1>
+      <div class="hero-head">
+        <h1>Black Friday Offer</h1>
+        <div class="head-clock" aria-hidden="true">
+          <div class="unit"><span class="digits" data-unit="d"></span><span class="name">Days</span></div>
+          <span class="colon"></span>
+          <div class="unit"><span class="digits" data-unit="h"></span><span class="name">Hrs</span></div>
+          <span class="colon"></span>
+          <div class="unit"><span class="digits" data-unit="m"></span><span class="name">Min</span></div>
+          <span class="colon"></span>
+          <div class="unit"><span class="digits" data-unit="s"></span><span class="name">Sec</span></div>
+        </div>
+      </div>
       <div class="card-col">
         <article class="shell" aria-labelledby="plan-name">
           <div class="panel">
@@ -481,44 +418,44 @@
     </div>
   </section>
 
-  <!-- 2. Logos -->
+  <!-- 2. Case studies -->
+  <section class="sec cases" aria-labelledby="cs-title">
+    <div class="cs-inner">
+      <div class="cs-head">
+        <div class="cs-heading">
+          <p class="nf"><span class="nf-in"><span class="nf-txt">Case Studies</span></span></p>
+          <h2 id="cs-title">How photographers sell Rendy</h2>
+        </div>
+        <div class="cs-nav">
+          <button class="cs-arrow" type="button" data-dir="-1" aria-label="Previous case studies" aria-controls="cs-track"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 5 7 10l5 5" /></svg></button>
+          <button class="cs-arrow" type="button" data-dir="1" aria-label="Next case studies" aria-controls="cs-track"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5" /></svg></button>
+        </div>
+      </div>
+      <ul class="cs-track" id="cs-track" tabindex="0" aria-label="Case studies, scroll sideways for more">
+        <li class="cs-card"><a href="https://rendy.io/academy/case/steven-and-eduardo" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/steven-eduardo.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">Why Steven &amp; Eduardo are replacing gimbal video with Rendy</span><span class="cs-d">Elite Media started as a side hustle in Glasgow…</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/tim" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/tim.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Tim added video to every listing</span><span class="cs-d">His entry strategy is simple: new agents get the first video free.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/scott-prokop" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/scott-prokop.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">After 10,000 shoots, here&#x27;s how Scott upsells video in minutes</span><span class="cs-d">Every new product that comes out, Scott tries it. If it fits, it goes into the workflow. Rendy made the cut.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/haley" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/haley.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 40%" /></span><span class="cs-txt"><span class="cs-t">How Haley turned her archive into a video offering overnight</span><span class="cs-d">She didn&#x27;t launch video with a new package. She started by giving it away.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/sam" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/sam.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 50%" /></span><span class="cs-txt"><span class="cs-t">How Sam is using Rendy to get booked more</span><span class="cs-d">Every client gets a Rendy Video. It&#x27;s not just a listing tool, it&#x27;s how Sam stands out.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/jesse" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/jesse.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Jesse increased his AOV by 51%</span><span class="cs-d">Jesse runs a real estate media company in…</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/suzanne" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/suzanne.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Suzanne turns a free Reel into $135</span><span class="cs-d">Rendy adds $65–$135 more per shoot, and drives additional upsells.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/keith" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/keith.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 35%" /></span><span class="cs-txt"><span class="cs-t">How Keith grew AOV with Rendy</span><span class="cs-d">They include the ‘Social Six-Pack’ in their packages so agents who don&#x27;t normally order video start using it.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/dylan" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/dylan.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">From 0 → 60+ shoots/mo with Rendy</span><span class="cs-d">On May 12th he booked his first paid shoot. 11 months later Dylan has grown Mohr to a 4-person team, has shot 290 homes, and is averaging 60+ shoots a month.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/danny" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/danny.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Danny adds $225/shoot with Rendy</span><span class="cs-d">Rendy Spotlight: Danny Garcia</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/jake" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/jake.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Jake uses Rendy to win new clients</span><span class="cs-d">Jake runs MT Property Photography — 250 shoots a year, 3-person team.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/scott" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/scott.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">Why Scott chose Rendy after testing the market</span><span class="cs-d">Scott runs Showing Austin in Austin, Texas — 150 to 250 shoots a year, solo operator.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/curtis" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/curtis.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Curtis adds $100 to every shoot</span><span class="cs-d">Curtis runs Creative Impressions Media, a family business, shooting since 2017.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/benjamin" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/benjamin.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Benjamín increased his AOV by 40% with Rendy</span><span class="cs-d">Benjamín runs Tu Piso en Fotos in Madrid, Spain — 1,200 shoots a year, 3 photographers and a VA handling post-production.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li class="cs-card"><a href="https://rendy.io/academy/case/eli" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/eli.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">We&#x27;ve Partnered with Eli Jones!</span><span class="cs-d">Here’s what Eli has to say about where social media is headed in 2026, and why tools like Rendy matter</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. Logos -->
   <section class="sec logos" aria-labelledby="logos-cap">
     <p class="logos-cap" id="logos-cap">Trusted by 1400+ Real Estate Photographers</p>
     <div class="logo-window">
       <div class="marquee logo-track" id="logo-track" style="--dur:52s"></div>
-    </div>
-  </section>
-
-  <!-- 3. Camera Control -->
-  <section class="sec camera" aria-labelledby="cc-title">
-    <span class="cc-tile t1" aria-hidden="true"><img src="assets/lp/cam1.svg" alt="" /></span>
-    <span class="cc-tile t2 flip" aria-hidden="true"><img src="assets/lp/cam2.svg" alt="" /></span>
-    <span class="cc-tile t3 flip" aria-hidden="true"><img src="assets/lp/cam3.svg" alt="" /></span>
-    <div class="cc-head">
-      <p class="nf"><span class="nf-in"><span class="nf-txt">New Feature</span></span></p>
-      <h2 class="cc-title" id="cc-title">
-        <span class="cc-intro">Introducing</span>
-        <span class="cc-mark">
-          <span class="cc-box">
-            <img class="cc-frame" src="assets/lp/cam-titlebox.svg" alt="" />
-            <span class="cc-words"><span class="a">Camera</span><span class="b">Control</span></span>
-            <span class="cc-bar t"></span><span class="cc-bar b"></span><span class="cc-bar l"></span><span class="cc-bar r"></span>
-          </span>
-          <span class="cc-cur" aria-hidden="true"><span><img src="assets/lp/cam-cursor.svg" alt="" /></span></span>
-        </span>
-      </h2>
-    </div>
-    <div class="cc-card" role="img" aria-label="The Camera Control editor: a desert listing photo framed for a camera move, with sliders for horizontal, vertical, zoom, pan, tilt and rotate, and an Apply movement button">
-      <div class="cc-panel" aria-hidden="true">
-        <div class="cc-view"><img src="assets/lp/cam-frame.webp" width="1308" height="739" alt="" loading="lazy" decoding="async" /></div>
-        <div class="cc-side">
-          <div class="cc-sliders">
-            <div class="cc-col"><div class="sl"><p class="sl-top"><span>Horizontal</span><span>-4.2</span></p><div class="sl-row" style="--f:37.8%;--k:37.61%"><span class="fl"></span><span class="kn"></span></div></div><div class="sl"><p class="sl-top"><span>Vertical</span><span>0.0</span></p><div class="sl-row" style="--f:48.0%;--k:50.02%"><span class="fl"></span><span class="kn"></span></div></div><div class="sl"><p class="sl-top"><span>Zoom</span><span>7.2</span></p><div class="sl-row" style="--f:81.2%;--k:82.36%"><span class="fl"></span><span class="kn"></span></div></div></div>
-            <div class="cc-col"><div class="sl"><p class="sl-top"><span>Pan</span><span>3.6</span></p><div class="sl-row" style="--f:68.6%;--k:69.59%"><span class="fl"></span><span class="kn"></span></div></div><div class="sl"><p class="sl-top"><span>Tilt</span><span>1.9</span></p><div class="sl-row" style="--f:54.6%;--k:55.59%"><span class="fl"></span><span class="kn"></span></div></div><div class="sl off"><p class="sl-top"><span>Rotate</span><span>0.0</span></p><div class="sl-row" style="--f:50.0%;--k:50.0%"><span class="fl"></span><span class="kn"></span></div></div></div>
-          </div>
-          <span class="cc-apply">Apply movement</span>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -534,39 +471,21 @@
     </div>
   </section>
 
-  <!-- 5. Case studies -->
-  <section class="sec cases" aria-labelledby="cs-title">
-    <div class="cs-inner">
-      <div class="cs-head">
-        <div class="cs-heading">
-          <p class="nf"><span class="nf-in"><span class="nf-txt">Case Studies</span></span></p>
-          <h2 id="cs-title">How photographers sell Rendy</h2>
-        </div>
-        <div class="cs-nav">
-          <button class="cs-arrow" type="button" data-dir="-1" aria-label="Previous case studies" aria-controls="cs-track"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 5 7 10l5 5" /></svg></button>
-          <button class="cs-arrow" type="button" data-dir="1" aria-label="Next case studies" aria-controls="cs-track"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5" /></svg></button>
-        </div>
-      </div>
-      <ul class="cs-track" id="cs-track" tabindex="0" aria-label="Case studies, scroll sideways for more">
-        <li class="cs-card"><a href="https://rendy.io/academy/case/eli" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/eli.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">We&#x27;ve Partnered with Eli Jones!</span><span class="cs-d">Here’s what Eli has to say about where social media is headed in 2026, and why tools like Rendy matter</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-        <li class="cs-card"><a href="https://rendy.io/academy/case/tim" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/tim.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Tim added video to every listing</span><span class="cs-d">His entry strategy is simple: new agents get the first video free.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-        <li class="cs-card"><a href="https://rendy.io/academy/case/scott-prokop" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/scott-prokop.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">After 10,000 shoots, here&#x27;s how Scott upsells video in minutes</span><span class="cs-d">Every new product that comes out, Scott tries it. If it fits, it goes into the workflow. Rendy made the cut.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-        <li class="cs-card"><a href="https://rendy.io/academy/case/haley" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/haley.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 40%" /></span><span class="cs-txt"><span class="cs-t">How Haley turned her archive into a video offering overnight</span><span class="cs-d">She didn&#x27;t launch video with a new package. She started by giving it away.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-        <li class="cs-card"><a href="https://rendy.io/academy/case/sam" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/sam.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 50%" /></span><span class="cs-txt"><span class="cs-t">How Sam is using Rendy to get booked more</span><span class="cs-d">Every client gets a Rendy Video. It&#x27;s not just a listing tool, it&#x27;s how Sam stands out.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-        <li class="cs-card"><a href="https://rendy.io/academy/case/jesse" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/jesse.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Jesse increased his AOV by 51%</span><span class="cs-d">Jesse runs a real estate media company in…</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-        <li class="cs-card"><a href="https://rendy.io/academy/case/steven-and-eduardo" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/steven-eduardo.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">Why Steven &amp; Eduardo are replacing gimbal video with Rendy</span><span class="cs-d">Elite Media started as a side hustle in Glasgow…</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-        <li class="cs-card"><a href="https://rendy.io/academy/case/suzanne" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/suzanne.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 30%" /></span><span class="cs-txt"><span class="cs-t">How Suzanne turns a free Reel into $135</span><span class="cs-d">Rendy adds $65–$135 more per shoot, and drives additional upsells.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-        <li class="cs-card"><a href="https://rendy.io/academy/case/keith" target="_blank" rel="noopener"><span class="cs-img"><img src="assets/lp/cases/keith.webp" alt="" width="640" height="640" loading="lazy" decoding="async" style="object-position:50% 35%" /></span><span class="cs-txt"><span class="cs-t">How Keith grew AOV with Rendy</span><span class="cs-d">They include the ‘Social Six-Pack’ in their packages so agents who don&#x27;t normally order video start using it.</span></span><span class="cs-btn">Read More <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 9.9 9.9 6.1M7 6.1h2.9V9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 6. CTA + footer -->
+  <!-- 5. CTA + footer -->
   <section class="sec foot">
     <div class="foot-inner">
       <div class="big-r" aria-hidden="true"><img src="assets/lp/big-r-dark.svg" alt="" /></div>
       <div class="cta-block">
         <h2><span>Black Friday Offer.</span><span class="fade"><s><span class="sr-only">Normally </span>$79</s> <b>$59/month</b>, billed annually.</span></h2>
+        <div class="head-clock foot-clock" aria-hidden="true">
+          <div class="unit"><span class="digits" data-unit="d"></span><span class="name">Days</span></div>
+          <span class="colon"></span>
+          <div class="unit"><span class="digits" data-unit="h"></span><span class="name">Hrs</span></div>
+          <span class="colon"></span>
+          <div class="unit"><span class="digits" data-unit="m"></span><span class="name">Min</span></div>
+          <span class="colon"></span>
+          <div class="unit"><span class="digits" data-unit="s"></span><span class="name">Sec</span></div>
+        </div>
         <a class="apply" href="#checkout" aria-label="Get Started" data-roll="Get Started|Get Annual Plan"></a>
       </div>
       <div class="footer-blur" aria-hidden="true"></div>
