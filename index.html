@@ -310,63 +310,19 @@
       .col a { color: var(--title); }
       .cs-btn { background: #1f1f1f; }
     }
-
-    /* ---------- Page-open intro: the light sweep (?intro=0 turns it off) ----------
-       It plays once per page load, never blocks a tap (pointer-events: none) and the offer is readable within ~0.8s.
-       A warm band of light crosses the screen left to right, lights the red dots as it passes and uncovers the page. */
-    @property --sx { syntax: "<percentage>"; inherits: false; initial-value: -40%; }
-    .ifx { display: none; }
-    html.intro .ifx { display: block; position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
-    html.intro-done .ifx { display: none; }
-    .ifx > * { position: absolute; inset: 0; }
-    html.intro :is(.brand, .hero-head h1, .hero-head .head-clock, .tex-wrap) { animation: ifx-in 800ms var(--ease-out) var(--d, 0ms) both; }
-    html.intro .hero-sec .card-col { animation: ifx-card 900ms var(--ease-out) var(--d, 0ms) both; }
-    @keyframes ifx-in { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
-    @keyframes ifx-card { from { opacity: 0; transform: translateY(28px) scale(0.96); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
-    html.intro .tex-wrap { animation-name: ifx-fade; animation-duration: 1200ms; }
-    @keyframes ifx-fade { from { opacity: 0; } to { opacity: 1; } }
-
-    /* 1. Light sweep */
-    html.intro-1 .brand { --d: 560ms; } html.intro-1 .hero-head h1 { --d: 480ms; } html.intro-1 .hero-head .head-clock { --d: 540ms; }
-    html.intro-1 .hero-sec .card-col { --d: 520ms; } html.intro-1 .tex-wrap { --d: 760ms; }
-    .intro-1 .ifx-beam {
-      inset: -20vh auto -20vh 0; width: 56vw; filter: blur(26px); mix-blend-mode: screen;
-      background: linear-gradient(90deg, rgba(255, 214, 120, 0), rgba(255, 226, 150, 0.95) 34%, rgba(255, 150, 96, 0.85) 52%, rgba(222, 35, 44, 0.7) 70%, rgba(222, 35, 44, 0));
-      animation: v1-beam 1600ms cubic-bezier(0.77, 0, 0.175, 1) both;
-    }
-    @keyframes v1-beam { 0% { transform: translateX(-68vw) skewX(-14deg); opacity: 1; } 78% { opacity: 1; } 100% { transform: translateX(122vw) skewX(-14deg); opacity: 0; } }
-    /* the page stays dark until the light reaches it */
-    .intro-1 .ifx-veil {
-      background: var(--bg);
-      -webkit-mask: linear-gradient(100deg, transparent calc(var(--sx) - 12%), #000 calc(var(--sx) + 4%));
-      mask: linear-gradient(100deg, transparent calc(var(--sx) - 12%), #000 calc(var(--sx) + 4%));
-      animation: v1-dots 1600ms cubic-bezier(0.77, 0, 0.175, 1) both;
-    }
-    .intro-1 .ifx-dots {
-      background: radial-gradient(circle, rgba(255, 170, 150, 1) 1.3px, transparent 1.9px) 0 0 / 12px 12px; mix-blend-mode: screen;
-      -webkit-mask: linear-gradient(100deg, transparent calc(var(--sx) - 34%), #000 calc(var(--sx) - 10%), #000 var(--sx), transparent calc(var(--sx) + 16%));
-      mask: linear-gradient(100deg, transparent calc(var(--sx) - 34%), #000 calc(var(--sx) - 10%), #000 var(--sx), transparent calc(var(--sx) + 16%));
-      animation: v1-dots 1600ms cubic-bezier(0.77, 0, 0.175, 1) both;
-    }
-    @keyframes v1-dots { 0% { --sx: -40%; } 100% { --sx: 150%; } }
-    .intro-1 .ifx-wash { background: radial-gradient(130% 100% at 0% 0%, rgba(255, 178, 96, 0.2), rgba(222, 35, 44, 0.1) 42%, transparent 72%); animation: v1-wash 2300ms ease-out both; }
-    @keyframes v1-wash { 0% { opacity: 0; } 22% { opacity: 1; } 100% { opacity: 0; } }
-
-    /* reduced motion: no light show, the hero simply fades in */
-    html.intro-calm :is(.brand, .hero-head h1, .hero-head .head-clock, .tex-wrap, .hero-sec .card-col) { animation: ifx-fade 400ms ease both; }
   </style>
-  <script>
-    /* start the intro before the first paint so the hero never flashes in unanimated */
-    (() => {
-      const el = document.documentElement;
-      if (new URLSearchParams(location.search).get('intro') === '0') return;
-      el.classList.add('intro', matchMedia('(prefers-reduced-motion: reduce)').matches ? 'intro-calm' : 'intro-1');
-    })();
-  </script>
   <script src="assets/bf/dots-mask.js"></script>
+  <script>document.documentElement.classList.add('intro-pending')</script>
+  <style>
+    /* ---------- Load-in: the "Slash" (script at the end of the page). The page stays hidden until it hands over; the 5s failsafe shows it no matter what ---------- */
+    html.intro-pending body > *:not(.intro-canvas) { opacity: 0; animation: intro-failsafe 1ms 5s forwards; }
+    html:not(.intro-pending) body > *:not(.intro-canvas) { transition: opacity 280ms ease-out; }
+    @keyframes intro-failsafe { to { opacity: 1; } }
+    .intro-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 90; pointer-events: none; transition: opacity 340ms ease-out; }
+    .intro-canvas.out { opacity: 0; }
+  </style>
 </head>
 <body>
-  <div class="ifx" aria-hidden="true"><div class="ifx-veil"></div><div class="ifx-wash"></div><div class="ifx-beam"></div><div class="ifx-dots"></div></div>
   <!-- 1. Hero -->
   <section class="sec hero-sec" id="hero">
     <a class="brand" href="https://rendy.io/" aria-label="Rendy home"><img src="assets/lp/logo.svg" alt="Rendy" /></a>
@@ -504,8 +460,6 @@
       const root = document.documentElement;
       const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
-      // ---- Intro: take the overlay away once it has played ----
-      if (root.classList.contains('intro')) setTimeout(() => root.classList.add('intro-done'), 3000);
       const OFFER_END = new Date('2026-11-30T23:59:59-08:00').getTime();
       const q = new URLSearchParams(location.search);
       const offset = q.get('now') && !isNaN(Date.parse(q.get('now'))) ? Date.parse(q.get('now')) - Date.now() : 0;
@@ -596,5 +550,310 @@
       addEventListener('scroll', () => root.classList.remove('is-lit'), { passive: true });
     })();
   </script>
+  <script>/* Rendy Black Friday load-in: the "Slash". No dependencies.
+   A red cut tears across the screen like a price being struck, and the hero splits out of it as hard
+   square pixels that resolve into the real page.
+
+   How it stays light: the hero is copied once into a tiny low-res canvas, each pixel becomes one
+   GPU instance, and all motion is computed in the vertex shader from a single time value, so
+   nothing runs per particle on the CPU. It is time-driven (a slow phone drops frames but still ends
+   on schedule), and it removes itself and frees the GL context when done.
+
+   index.html hides the page by adding .intro-pending to <html> from an inline script in <head>, and
+   its CSS shows the page after 5s regardless, so a failure here can never leave the page blank.
+   Any failure, or no WebGL, or reduced motion, just shows the page. */
+(() => {
+  const root = document.documentElement;
+  const SKIP = '.sr-only, .lights, .stars, .glow, script, style, svg';
+  const ACCENT = 'vec3(.871,.137,.173)';
+  const END = 1.95;
+
+  /* ---------- shared vertex shader ---------- */
+  const VS_HEAD = `
+    precision highp float;
+    attribute vec2 aC, aH; attribute vec4 aK, aR;
+    uniform float uT, uS, uR; uniform vec2 uV, uO;
+    varying vec2 vP; varying vec4 vK; varying float vF;
+    const float TAU = 6.28318;
+    vec2 rel; float rH, aA;
+    float cl(float x){ return clamp(x, 0., 1.); }
+    float inOut(float x){ x = cl(x); return x < .5 ? 16.*x*x*x*x*x : 1. - pow(-2.*x + 2., 5.)/2.; }
+    float expOut(float x){ x = cl(x); return x >= 1. ? 1. : 1. - pow(2., -11.*x); }
+    float bell(float x){ return x*(1.-x)*4.; }
+  `;
+  const VS_TAIL = `
+    void main(){
+      rel = aH - uO; rH = length(rel); aA = atan(rel.y, rel.x);
+      vec3 a = pos(uT), b = pos(uT - .024);
+      float e = a.z, size = uS, alpha = aK.a; vec3 col = aK.rgb; float crisp = 0.; float maxTrail = 90.;
+      look(e, size, alpha, col, crisp, maxTrail);
+      vec2 d = a.xy - b.xy; float l = length(d);
+      vec2 dir = l > .01 && maxTrail > 0. ? d/l : vec2(1., 0.), n = vec2(-dir.y, dir.x);
+      float trail = min(l*1.15, maxTrail);
+      vec2 q = a.xy - dir*trail*.5 + dir*(size*.5 + trail*.5)*aC.x + n*size*.5*aC.y;
+      gl_Position = vec4(q.x/uV.x*2. - 1., 1. - q.y/uV.y*2., 0., 1.);
+      vP = aC; vK = vec4(col, alpha); vF = crisp;
+    }
+  `;
+  const FS = `
+    precision mediump float;
+    varying vec2 vP; varying vec4 vK; varying float vF;
+    void main(){
+      float d = mix(length(vP), max(abs(vP.x), abs(vP.y)), vF);
+      float a = 1. - smoothstep(mix(.25, .985, vF), 1., d);
+      gl_FragColor = vec4(vK.rgb*a*vK.a, a*vK.a);
+    }
+  `;
+
+  const SLASH = `
+        const vec2 U = vec2(.927, -.375), N = vec2(.375, .927);
+        vec2 st(){ float L = uR*1.15; return vec2((aR.x*2. - 1.)*L, L); }
+        vec3 pos(float t){
+          vec2 s = st();
+          float h = dot(rel, N);
+          float head = (s.x + s.y)/(2.*s.y)*.26;
+          float rel0 = .46 + abs(s.x/s.y)*.14 + aR.y*.2;
+          float e = expOut((t - rel0)/.95);
+          vec2 line = U*s.x + N*(aR.z - .5)*(1.2 + 3.*smoothstep(.2, .46, t));
+          line += U*(1. - cl((t - head)/.16))*-260.;
+          float kick = sign(h + .001)*(120. + 300.*aR.w)*bell(cl(e*1.15))*.5;
+          vec2 p = mix(line, rel + N*kick, e);
+          float g = uS*18.*pow(1. - e, 1.6)*smoothstep(0., .06, e);
+          p += uO;
+          if (g > uS) p = (floor(p/g) + .5)*g;
+          return vec3(p, e);
+        }
+        void look(float e, inout float size, inout float alpha, inout vec3 col, inout float crisp, inout float maxTrail){
+          vec2 s = st();
+          float head = (s.x + s.y)/(2.*s.y)*.26;
+          float on = step(head, uT);
+          float hot = 1. - smoothstep(.3, .92, e);
+          vec3 tint = uT < .46 + .2 ? vec3(1., .78, .74) : ${ACCENT}*1.25;
+          col = mix(col, tint, hot);
+          alpha = on*mix(mix(.55, alpha, smoothstep(.5, .95, e)), alpha, step(1., e));
+          size *= e > 0. ? 1. + 11.*pow(1. - e, 2.)*step(.35, aR.z) : 1.2;
+          crisp = 1.;
+          maxTrail = e > 0. ? 0. : 40.;
+        }`;
+
+  /* ---------- copy the hero into a low-res canvas by walking the DOM ---------- */
+  const parseAlpha = c => { const m = c.match(/[\d.]+/g); return !m ? 0 : m.length > 3 ? +m[3] : 1; };
+  const path = (g, x, y, w, h, r) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, h, r) : g.rect(x, y, w, h); };
+
+  function drawText(g, node, cs) {
+    const tt = cs.textTransform, raw = node.nodeValue;
+    /* the copy must read exactly like the page, so CSS uppercase (the timer's DAYS/HRS/MIN/SEC) is applied here too */
+    const text = tt === 'uppercase' ? raw.toUpperCase() : tt === 'lowercase' ? raw.toLowerCase() : raw;
+    if (!text.trim()) return;
+    const strike = (cs.textDecorationLine || '').includes('line-through');
+    g.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    g.fillStyle = cs.color; g.textBaseline = 'alphabetic';
+    const tab = (cs.fontVariantNumeric || '').includes('tabular'), ls = tab ? parseFloat(cs.letterSpacing) || 0 : 0;
+    if ('letterSpacing' in g) g.letterSpacing = tab || cs.letterSpacing === 'normal' ? '0px' : cs.letterSpacing;
+    const range = document.createRange();
+    const re = /\S+/g; let m;
+    while ((m = re.exec(text))) {
+      range.setStart(node, m.index); range.setEnd(node, m.index + m[0].length);
+      const r = range.getBoundingClientRect();
+      if (!r.width) continue;
+      const fm = g.measureText(m[0]);
+      const asc = fm.fontBoundingBoxAscent || parseFloat(cs.fontSize)*.8, desc = fm.fontBoundingBoxDescent || parseFloat(cs.fontSize)*.2;
+      const base = r.top + (r.height - asc - desc)/2 + asc;
+      if (tab) {
+        /* tabular digits (the prices and the countdown) are wider than the canvas's own digits, so each character is
+           placed at the exact box the page gives it and centred in it; the copy then matches the page to the pixel */
+        for (let k = 0; k < m[0].length; k++) {
+          range.setStart(node, m.index + k); range.setEnd(node, m.index + k + 1);
+          const c = range.getBoundingClientRect(), ch = m[0][k];
+          g.fillText(ch, c.left + (c.width - ls - g.measureText(ch).width)/2, base);
+        }
+        range.setStart(node, m.index); range.setEnd(node, m.index + m[0].length);
+      } else g.fillText(m[0], r.left, base);
+      /* a struck price keeps its line in the pixels, so "$79" lands already struck and there is nothing left to
+         appear when the page takes over (measured on the page: 47.6% down the text box, 10% of the font size thick) */
+      if (strike) { g.fillStyle = cs.textDecorationColor || cs.color; g.fillRect(r.left, r.top + r.height*.476, r.width, parseFloat(cs.fontSize)*.1); g.fillStyle = cs.color; }
+    }
+  }
+
+  /* a page opened straight from disk may not read back its own images, so those are dropped from
+     the particles there; the real logo and texture still fade in at the end */
+  let drawImages = true;
+
+  function paint(g, el) {
+    if (el.matches(SKIP)) return;
+    const cs = getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden') return;
+    if (cs.rotate && cs.rotate !== 'none') {
+      /* measure it unrotated, then rotate the canvas around the same centre (this is the ribbon) */
+      const box = el.getBoundingClientRect(), cx = box.left + box.width/2, cy = box.top + box.height/2, deg = parseFloat(cs.rotate);
+      el.style.rotate = 'none';
+      g.save(); g.translate(cx, cy); g.rotate(deg*Math.PI/180); g.translate(-cx, -cy);
+      paint(g, el);
+      g.restore(); el.style.rotate = '';
+      return;
+    }
+    const r = el.getBoundingClientRect(), rad = parseFloat(cs.borderTopLeftRadius) || 0;
+    if (parseAlpha(cs.backgroundColor) > .02) { g.fillStyle = cs.backgroundColor; path(g, r.left, r.top, r.width, r.height, rad); g.fill(); }
+    if (parseFloat(cs.borderTopWidth) > 0) {
+      /* card borders are nearly black on the page; lift them so the card's outline survives as particles */
+      g.strokeStyle = 'rgba(255,255,255,.28)'; g.lineWidth = 2;
+      path(g, r.left, r.top, r.width, r.height, rad); g.stroke();
+    }
+    if (el.classList.contains('colon')) {
+      /* the timer's ":" is two 3px dots made with a CSS gradient; draw them so they are there in the pixels too */
+      g.fillStyle = cs.getPropertyValue('--colon').trim() || '#d9d9d9';
+      for (const dy of [1.5, 7.5]) { g.beginPath(); g.arc(r.left + 1.5, r.top + dy, 1.5, 0, 6.2832); g.fill(); }
+      return;
+    }
+    if (el.tagName === 'IMG') { if (el.naturalWidth && drawImages) g.drawImage(el, r.left, r.top, r.width, r.height); return; }
+    const clip = cs.overflowX !== 'visible';
+    g.save();
+    if (clip) { path(g, r.left, r.top, r.width, r.height, rad); g.clip(); }
+    for (const c of el.childNodes) {
+      if (c.nodeType === 1) paint(g, c);
+      else if (c.nodeType === 3) drawText(g, c, cs);
+    }
+    g.restore();
+  }
+
+  function sample(hero, W, H, budget) {
+    for (let step = W < 720 ? 2 : 2.5; ; step += .5) {
+      const w = Math.ceil(W/step), h = Math.ceil(H/step);
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const g = c.getContext('2d', { willReadFrequently: true });
+      g.scale(1/step, 1/step); paint(g, hero);
+      let px;
+      try { px = g.getImageData(0, 0, w, h).data; }
+      catch (err) {
+        if (!drawImages || err.name !== 'SecurityError') throw err;
+        drawImages = false; step -= .5; continue;
+      }
+      const out = [];
+      for (let y = 0, i = 0; y < h; y++) for (let x = 0; x < w; x++, i += 4) {
+        const a = px[i + 3], lum = px[i]*.3 + px[i + 1]*.59 + px[i + 2]*.11;
+        if (a > 26 && lum > 16) out.push(x, y, px[i], px[i + 1], px[i + 2], a);
+      }
+      if (out.length/6 <= budget || step >= 6) return { out, step, count: out.length/6 };
+    }
+  }
+
+  /* ---------- GL ---------- */
+  function program(gl, vs, fs) {
+    const p = gl.createProgram();
+    for (const [type, src] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) {
+      const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+      gl.attachShader(p, s);
+    }
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    return p;
+  }
+
+  /* when the slash ends the page simply appears as it is: no flare on the card, no strike or pop on the price */
+  function reveal() {
+    root.classList.remove('intro-pending');
+  }
+
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  async function play() {
+    /* nothing to show: reduced motion, a background tab, or a reload that restored a scroll position */
+    const forced = /[?&]intro=force\b/.test(location.search);   /* for reviews: plays even with reduced motion on */
+    const skip = !forced && matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced motion is on' : document.hidden ? 'tab is in the background' : scrollY > 40 ? 'page is already scrolled' : '';
+    if (skip) { console.info(`[intro] skipped: ${skip}`); return reveal(); }
+    let cleanup = () => reveal();
+    try {
+      const hero = document.querySelector('#hero');
+      /* the title must be in Geist and the hero images loaded before they are copied; never wait long */
+      const fonts = document.fonts ? document.fonts.load('500 54px Geist').then(() => document.fonts.ready) : null;
+      const images = [...hero.querySelectorAll('.brand img, .tex-wrap > img')].map(i => (i.decode ? i.decode().catch(() => {}) : null));
+      await Promise.race([Promise.all([fonts, ...images]), wait(1200)]);
+
+      /* an embedded or just-opened view can report a zero size for a moment */
+      /* the canvas covers the page area beside the scrollbar, so size everything to that area (clientWidth), not to the
+         whole window (innerWidth); otherwise the pixel copy is squeezed by the scrollbar's width and the card lands
+         a few pixels left of where it really is, then jumps right when the page takes over */
+      const vw = () => root.clientWidth || innerWidth, vh = () => root.clientHeight || innerHeight;
+      for (let i = 0; i < 20 && !(vw() && vh()); i++) await wait(25);
+      const W = vw(), H = vh();
+      if (!W || !H) return cleanup();
+      const weak = W < 720 || (navigator.hardwareConcurrency || 8) <= 4;
+      const dpr = Math.min(devicePixelRatio || 1, weak ? 1.5 : 2);
+      const { out, step, count } = sample(hero, W, H, weak ? 26000 : 60000);
+
+      const cv = document.createElement('canvas');
+      cv.className = 'intro-canvas'; cv.width = W*dpr; cv.height = H*dpr;
+      const gl = cv.getContext('webgl', { alpha: true, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance' });
+      const inst = gl && gl.getExtension('ANGLE_instanced_arrays');
+      if (!inst || !count) { console.info('[intro] skipped: WebGL is unavailable'); return cleanup(); }
+
+      /* 16 bytes per particle: home xy, rgba, four random bytes */
+      const buf = new ArrayBuffer(count*16), f = new Float32Array(buf), b = new Uint8Array(buf);
+      for (let i = 0; i < count; i++) {
+        const o = i*6;
+        f[i*4] = (out[o] + .5)*step; f[i*4 + 1] = (out[o + 1] + .5)*step;
+        b.set([out[o + 2], out[o + 3], out[o + 4], out[o + 5]], i*16 + 8);
+        for (let k = 12; k < 16; k++) b[i*16 + k] = Math.random()*256;
+      }
+
+      const p = program(gl, VS_HEAD + SLASH + VS_TAIL, FS);
+      gl.useProgram(p);
+      const quad = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const aC = gl.getAttribLocation(p, 'aC'); gl.enableVertexAttribArray(aC); gl.vertexAttribPointer(aC, 2, gl.FLOAT, false, 0, 0);
+      const data = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, data); gl.bufferData(gl.ARRAY_BUFFER, buf, gl.STATIC_DRAW);
+      for (const [n, size, type, norm, off] of [['aH', 2, gl.FLOAT, false, 0], ['aK', 4, gl.UNSIGNED_BYTE, true, 8], ['aR', 4, gl.UNSIGNED_BYTE, true, 12]]) {
+        const loc = gl.getAttribLocation(p, n); gl.enableVertexAttribArray(loc);
+        gl.vertexAttribPointer(loc, size, type, norm, 16, off); inst.vertexAttribDivisorANGLE(loc, 1);
+      }
+      const u = n => gl.getUniformLocation(p, n);
+      /* the cut runs through the card, not the page centre, so the motion lands on the offer */
+      const card = document.querySelector('.card-col').getBoundingClientRect();
+      gl.uniform2f(u('uV'), W, H); gl.uniform2f(u('uO'), W/2, Math.min(card.top + card.height*.34, H*.56));
+      gl.uniform1f(u('uS'), step); gl.uniform1f(u('uR'), Math.hypot(Math.max(W, 700), Math.max(H, 700))*.5);
+      const uT = u('uT');
+      gl.viewport(0, 0, cv.width, cv.height);
+      gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE); gl.clearColor(0, 0, 0, 0);
+      document.body.append(cv);
+
+      let t0 = 0, raf = 0, ended = false, revealed = false;
+      const remove = () => {
+        const lose = gl.getExtension('WEBGL_lose_context');
+        gl.deleteBuffer(quad); gl.deleteBuffer(data); gl.deleteProgram(p); lose && lose.loseContext();
+        cv.remove();
+      };
+      const handOver = () => { if (revealed) return; revealed = true; reveal(); cv.classList.add('out'); };
+      const stop = () => {
+        if (ended) return; ended = true; cancelAnimationFrame(raf);
+        removeEventListener('wheel', stop); removeEventListener('touchmove', stop); removeEventListener('keydown', onKey);
+        removeEventListener('resize', stop); document.removeEventListener('visibilitychange', stop);
+        handOver(); setTimeout(remove, 420);
+      };
+      const onKey = e => { if (['Escape', ' ', 'Enter', 'ArrowDown', 'PageDown'].includes(e.key)) stop(); };
+      addEventListener('wheel', stop, { passive: true }); addEventListener('touchmove', stop, { passive: true }); addEventListener('keydown', onKey);
+      addEventListener('resize', stop); document.addEventListener('visibilitychange', stop);
+      cleanup = stop;
+
+      const frame = now => {
+        t0 = t0 || now;
+        const t = (now - t0)/1000;
+        if (t >= END) return stop();
+        gl.uniform1f(uT, t); gl.clear(gl.COLOR_BUFFER_BIT); inst.drawArraysInstancedANGLE(gl.TRIANGLE_STRIP, 0, 4, count);
+        if (t >= END - .3) handOver();
+        raf = requestAnimationFrame(frame);
+      };
+      raf = requestAnimationFrame(frame);
+      /* a throttled view can stall animation frames; end on the clock regardless */
+      setTimeout(stop, END*1000 + 1000);
+    } catch (err) {
+      console.error('[intro]', err);
+      cleanup();
+    }
+  }
+
+  play();
+})();
+</script>
 </body>
 </html>
